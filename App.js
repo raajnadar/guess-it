@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native'
 import { DefaultTheme, Provider as PaperProvider, Appbar, Button, Text } from 'react-native-paper'
 
 let number = 0
-const min = 0, max = 50
+const min = 0, max = 50, random = 0
 
 export default class App extends Component {
 	constructor(props) {
@@ -43,6 +43,12 @@ export default class App extends Component {
 				</View>
 			</PaperProvider>
 		)
+	}
+
+	componentDidMount() {
+		// Generate random number
+		random = Math.floor(Math.random() * (max-min+1) + min);
+		console.log(random)
 	}
 
 	changeValue(name) {
