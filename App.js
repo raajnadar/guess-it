@@ -11,12 +11,17 @@ export default class App extends Component {
 		super(props)
 
 		this.state = {
-			number: 0
+			number: 0,
+			guessed_value: 0,
+			value: 'greater',
+			won: false
 		}
+
+		this.guessValue = this.guessValue.bind(this)
 	}
 
 	render() {
-		const { number } = this.state
+		const { number, value, guessed_value, won } = this.state
 
 		return (
 			<PaperProvider theme={DefaultTheme}>
@@ -27,7 +32,13 @@ export default class App extends Component {
 				</Appbar.Header>
 				<Text style={styles.title}>Let's assume the random number is X</Text>
 				<View style={styles.container}>
-					<Text style={{ fontSize: 22, marginHorizontal: 16, marginBottom: 20 }}>X is greater than 0</Text>
+					{
+						won ? (
+							<Text style={{ fontSize: 22, marginHorizontal: 16, marginBottom: 20 }}>Wow you guessed in X Tries</Text>
+						) : (
+							<Text style={{ fontSize: 22, marginHorizontal: 16, marginBottom: 20 }}>X is {value} than {guessed_value}</Text>
+						)
+					}
 					<View style={styles.padder}>
 						<Button mode="contained" onPress={() => this.changeValue('plus')}>+1</Button>
 					</View>
@@ -38,7 +49,7 @@ export default class App extends Component {
 						<Button mode="contained" onPress={() => this.changeValue('minus')}>-1</Button>
 					</View>
 					<View style={styles.padder}>
-						<Button mode="contained">Guess</Button>
+						<Button mode="contained" onPress={this.guessValue}>Guess</Button>
 					</View>
 				</View>
 			</PaperProvider>
@@ -49,6 +60,18 @@ export default class App extends Component {
 		// Generate random number
 		random = Math.floor(Math.random() * (max-min+1) + min);
 		console.log(random)
+	}
+
+	guessValue() {
+		if (number > random) {
+			console.log('Lesser')
+			this.setState({ value: 'lesser', guessed_value: number })
+		} else if (number < random) {
+			console.log('Greater')
+			this.setState({ value: 'greater', guessed_value: number })
+		} else {
+			this.setState({ won: true })
+		}
 	}
 
 	changeValue(name) {
