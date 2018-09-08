@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native'
 
 import { DefaultTheme, Provider as PaperProvider, Appbar, Button, Text } from 'react-native-paper'
 
-let number = 0
+let number = 0, tries = 0
 const min = 0, max = 50, random = 0
 
 export default class App extends Component {
@@ -21,7 +21,7 @@ export default class App extends Component {
 	}
 
 	render() {
-		const { number, value, guessed_value, won } = this.state
+		const { number, value, guessed_value, won, tries } = this.state
 
 		return (
 			<PaperProvider theme={DefaultTheme}>
@@ -34,7 +34,7 @@ export default class App extends Component {
 				<View style={styles.container}>
 					{
 						won ? (
-							<Text style={{ fontSize: 22, marginHorizontal: 16, marginBottom: 20 }}>Wow you guessed in X Tries</Text>
+							<Text style={{ fontSize: 22, marginHorizontal: 16, marginBottom: 20 }}>Wow you guessed in {tries} tries</Text>
 						) : (
 							<Text style={{ fontSize: 22, marginHorizontal: 16, marginBottom: 20 }}>X is {value} than {guessed_value}</Text>
 						)
@@ -59,7 +59,6 @@ export default class App extends Component {
 	componentDidMount() {
 		// Generate random number
 		random = Math.floor(Math.random() * (max-min+1) + min);
-		console.log(random)
 	}
 
 	guessValue() {
@@ -72,6 +71,9 @@ export default class App extends Component {
 		} else {
 			this.setState({ won: true })
 		}
+
+		tries++
+		this.setState({ tries: tries })
 	}
 
 	changeValue(name) {
@@ -84,6 +86,7 @@ export default class App extends Component {
 				number--
 			}
 
+			
 			this.setState({ number: number })
 		}
 	}
