@@ -18,6 +18,7 @@ export default class Index extends Component {
 		}
 
 		this.guessValue = this.guessValue.bind(this)
+		this.playAgain = this.playAgain.bind(this)
 	}
 
 	render() {
@@ -29,7 +30,7 @@ export default class Index extends Component {
 				<View style={styles.container}>
 					{
 						won ? (
-							<Text style={{ fontSize: 22, marginHorizontal: 16, marginBottom: 20 }}>Wow you guessed in {tries} tries</Text>
+							<Text style={{ fontSize: 22, marginHorizontal: 16, marginBottom: 20 }}>You guessed in {tries} tries</Text>
 						) : (
 							<Text style={{ fontSize: 22, marginHorizontal: 16, marginBottom: 20 }}>X is {value} than {guessed_value}</Text>
 						)
@@ -44,7 +45,13 @@ export default class Index extends Component {
 						<Button mode="contained" onPress={() => this.changeValue('minus')}>-1</Button>
 					</View>
 					<View style={styles.padder}>
-						<Button mode="contained" onPress={this.guessValue}>Guess</Button>
+						{
+							won ? (
+								<Button mode="contained" onPress={this.playAgain}>Play Again?</Button>
+							) : (
+								<Button mode="contained" onPress={this.guessValue}>Guess</Button>
+							)
+						}
 					</View>
 				</View>
             </Fragment>
@@ -53,15 +60,24 @@ export default class Index extends Component {
 
 	componentDidMount() {
 		// Generate random number
+		this.generateRandom()
+	}
+
+	generateRandom() {
 		random = Math.floor(Math.random() * (max-min+1) + min);
+	}
+
+	playAgain() {
+		// Clear all the data
+		this.generateRandom()
+		number = 0, tries = 0
+		this.setState({ won: false, value: 'greater', guessed_value: 0, number: 0 })
 	}
 
 	guessValue() {
 		if (number > random) {
-			console.log('Lesser')
 			this.setState({ value: 'lesser', guessed_value: number })
 		} else if (number < random) {
-			console.log('Greater')
 			this.setState({ value: 'greater', guessed_value: number })
 		} else {
 			this.setState({ won: true })
@@ -81,7 +97,6 @@ export default class Index extends Component {
 				number--
 			}
 
-			
 			this.setState({ number: number })
 		}
 	}
