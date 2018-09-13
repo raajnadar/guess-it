@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import { Appbar, Button, Text } from 'react-native-paper'
+import { Button, Text } from 'react-native-paper'
 
 let number = 0, tries = 0
 const min = 0, max = 50, random = 0
@@ -26,7 +26,7 @@ export default class Index extends Component {
 
 		return (
             <Fragment>
-				<Text style={styles.title}>Let's assume the random number is X</Text>
+				<Text style={styles.title}>The random number is X</Text>
 				<View style={styles.container}>
 					{
 						won ? (
@@ -36,20 +36,20 @@ export default class Index extends Component {
 						)
 					}
 					<View style={styles.padder}>
-						<Button mode="contained" onPress={() => this.changeValue('plus')}>+1</Button>
+						<Button mode="contained" onPress={() => this.changeValue('plus')} style={styles.button}>+1</Button>
 					</View>
 					<View style={styles.padder}>
 						<Text style={{ fontSize: 22 }}>Guess X as {number}</Text>
 					</View>
 					<View style={styles.padder}>
-						<Button mode="contained" onPress={() => this.changeValue('minus')}>-1</Button>
+						<Button mode="contained" onPress={() => this.changeValue('minus')} style={styles.button}>-1</Button>
 					</View>
 					<View style={styles.padder}>
 						{
 							won ? (
-								<Button mode="contained" onPress={this.playAgain}>Play Again?</Button>
+								<Button mode="contained" onPress={this.playAgain} style={styles.button}>Play Again?</Button>
 							) : (
-								<Button mode="contained" onPress={this.guessValue}>Guess</Button>
+								<Button mode="contained" onPress={this.guessValue} style={styles.button}>Guess</Button>
 							)
 						}
 					</View>
@@ -116,5 +116,9 @@ const styles = StyleSheet.create({
 	},
 	padder: {
 		paddingBottom: 16
+	},
+	button: {
+		minWidth: 160,
+		paddingVertical: 6
 	}
 })

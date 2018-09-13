@@ -6,6 +6,7 @@
     "privacy": "public",
     "sdkVersion": "30.0.0",
     "platforms": ["ios", "android"],
+    "githubUrl": "https://github.com/raajnadar/guess-it",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -20,6 +21,10 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "android": {
+      "package": "in.raajnadar",
+      "versionCode": 1
+    },
     "ios": {
       "supportsTablet": true
     }
