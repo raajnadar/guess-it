@@ -36,20 +36,20 @@ export default class Index extends Component {
 						)
 					}
 					<View style={styles.padder}>
-						<Button mode="contained" onPress={() => this.changeValue('plus')} style={styles.button}>+1</Button>
+						<Button mode="contained" onPress={() => this.changeValue('plus')} style={styles.button} disabled={number === 50 || won  ? true : false}>+1</Button>
 					</View>
 					<View style={styles.padder}>
 						<Text style={{ fontSize: 22 }}>Guess X as {number}</Text>
 					</View>
 					<View style={styles.padder}>
-						<Button mode="contained" onPress={() => this.changeValue('minus')} style={styles.button}>-1</Button>
+						<Button mode="contained" onPress={() => this.changeValue('minus')} style={styles.button} disabled={number === 0 || won ? true : false}>-1</Button>
 					</View>
 					<View style={styles.padder}>
 						{
 							won ? (
 								<Button mode="contained" onPress={this.playAgain} style={styles.button}>Play Again?</Button>
 							) : (
-								<Button mode="contained" onPress={this.guessValue} style={styles.button}>Guess</Button>
+								<Button mode="contained" onPress={this.guessValue} style={styles.button} disabled={number === guessed_value ? true : false}>Guess</Button>
 							)
 						}
 					</View>
