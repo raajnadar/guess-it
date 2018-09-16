@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, Linking } from 'react-native'
 
-import { Button, Text } from 'react-native-paper'
+import { Button, Text, Dialog, Portal, Paragraph } from 'react-native-paper'
 
 let number = 0, tries = 0
 const min = 0, max = 50, random = 0
@@ -23,10 +23,11 @@ export default class Index extends Component {
 
 	render() {
 		const { number, value, guessed_value, won, tries } = this.state
+		const visible = this.props.navigation.getParam('visible', false)
 
 		return (
-            <Fragment>
-				<Text style={styles.title}>The random number is X</Text>
+			<Fragment>
+				<Text style={styles.title}>Let X be the random number selected between {min} - {max}</Text>
 				<View style={styles.container}>
 					{
 						won ? (
@@ -54,7 +55,18 @@ export default class Index extends Component {
 						}
 					</View>
 				</View>
-            </Fragment>
+				<Portal>
+					<Dialog visible={visible} dismissable={false}>
+						<Dialog.Content>
+							<Paragraph>Guess the number mobile application developed by rajendran nadar</Paragraph>
+						</Dialog.Content>
+						<Dialog.Actions>
+							<Button onPress={() => Linking.openURL('https://raajnadar.in')}>Portfolio</Button>
+							<Button onPress={this.hideDialog}>Close</Button>
+						</Dialog.Actions>
+					</Dialog>
+				</Portal>
+			</Fragment>
 		)
 	}
 
@@ -62,6 +74,8 @@ export default class Index extends Component {
 		// Generate random number
 		this.generateRandom()
 	}
+
+	hideDialog = () => this.props.navigation.setParams({ visible: false })
 
 	generateRandom() {
 		random = Math.floor(Math.random() * (max-min+1) + min);

@@ -9,12 +9,13 @@ import Index from '../views'
 export default createStackNavigator({
 		Index: Index
 }, {
-	navigationOptions: {
+	navigationOptions: ({ navigation }) => ({
 		header: (
 			<Appbar.Header>
 				<Appbar.Content title="Guess It" />
+				<Appbar.Action icon="code" onPress={() => navigation.setParams({ visible: true })} />
 			</Appbar.Header>
 		)
-	},
+	}),
 	initialRouteName: 'Index'
 })
