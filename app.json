@@ -19,7 +19,7 @@
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
-      "**/*"
+      "assets/*"
     ],
     "android": {
       "package": "in.raajnadar",
