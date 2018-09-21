@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { StyleSheet, View, Linking } from 'react-native'
 
-import { Button, Text, Dialog, Portal, Paragraph } from 'react-native-paper'
+import { Button, Text, Dialog, Portal, Paragraph, Snackbar  } from 'react-native-paper'
 
 let number = 0, tries = 0
 const min = 0, max = 50, random = 0
@@ -14,7 +14,8 @@ export default class Index extends Component {
 			number: 0,
 			guessed_value: 0,
 			value: 'greater',
-			won: false
+			won: false,
+			snackVisible: false
 		}
 
 		this.guessValue = this.guessValue.bind(this)
@@ -22,25 +23,19 @@ export default class Index extends Component {
 	}
 
 	render() {
-		const { number, value, guessed_value, won, tries } = this.state
+		const { number, value, guessed_value, won, tries, snackVisible } = this.state
 		const visible = this.props.navigation.getParam('visible', false)
 
 		return (
 			<Fragment>
-				<Text style={styles.title}>Let X be the random number selected between {min} - {max}</Text>
+				<Text style={styles.title}>I randomly selected a number between {min} - {max}</Text>
+				<Text style={styles.title}>Now guess the correct number</Text>
 				<View style={styles.container}>
-					{
-						won ? (
-							<Text style={{ fontSize: 22, marginHorizontal: 16, marginBottom: 20 }}>You guessed in {tries} tries</Text>
-						) : (
-							<Text style={{ fontSize: 22, marginHorizontal: 16, marginBottom: 20 }}>X is {value} than {guessed_value}</Text>
-						)
-					}
 					<View style={styles.padder}>
 						<Button mode="contained" onPress={() => this.changeValue('plus')} style={styles.button} disabled={number === 50 || won  ? true : false}>+1</Button>
 					</View>
 					<View style={styles.padder}>
-						<Text style={{ fontSize: 22 }}>Guess X as {number}</Text>
+						<Text style={{ fontSize: 22 }}>{number}</Text>
 					</View>
 					<View style={styles.padder}>
 						<Button mode="contained" onPress={() => this.changeValue('minus')} style={styles.button} disabled={number === 0 || won ? true : false}>-1</Button>
@@ -66,6 +61,15 @@ export default class Index extends Component {
 						</Dialog.Actions>
 					</Dialog>
 				</Portal>
+				<Snackbar visible={snackVisible} duration={1500} onDismiss={() => this.setState({ snackVisible: false })} >
+					{
+						won ? (
+							<Text style={{ color: '#fff' }}>You guessed in {tries} tries</Text>
+						) : (
+							<Text style={{ color: '#fff' }}>Your guess is very {value}</Text>
+						)
+					}
+				</Snackbar>
 			</Fragment>
 		)
 	}
@@ -90,11 +94,11 @@ export default class Index extends Component {
 
 	guessValue() {
 		if (number > random) {
-			this.setState({ value: 'lesser', guessed_value: number })
+			this.setState({ value: 'high', guessed_value: number, snackVisible: true })
 		} else if (number < random) {
-			this.setState({ value: 'greater', guessed_value: number })
+			this.setState({ value: 'low', guessed_value: number, snackVisible: true })
 		} else {
-			this.setState({ won: true })
+			this.setState({ won: true, snackVisible: true })
 		}
 
 		tries++
@@ -123,7 +127,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	title: {
-		fontSize: 22,
+		fontSize: 20,
 		textAlign: 'center',
 		paddingHorizontal: 20,
 		marginTop: 16
