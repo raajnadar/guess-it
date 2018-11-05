@@ -3,8 +3,8 @@ import { StyleSheet, View, Linking } from 'react-native'
 
 import { Button, Text, Dialog, Portal, Paragraph, Snackbar  } from 'react-native-paper'
 
-let number = 0, tries = 0
-const min = 0, max = 50, random = 0
+let number = 0, tries = 0, random = 0
+const min = 0, max = 50
 
 export default class Index extends Component {
 	constructor(props) {
@@ -28,8 +28,7 @@ export default class Index extends Component {
 
 		return (
 			<Fragment>
-				<Text style={styles.title}>I randomly selected a number between {min} - {max}</Text>
-				<Text style={styles.title}>Now guess the correct number</Text>
+				<Text style={styles.title}>Guess the correct number between {min} - {max}</Text>
 				<View style={styles.container}>
 					<View style={styles.padder}>
 						<Button mode="contained" onPress={() => this.changeValue('plus')} style={styles.button} disabled={number === 50 || won  ? true : false}>+1</Button>
