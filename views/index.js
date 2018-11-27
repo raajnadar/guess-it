@@ -13,7 +13,9 @@ import {
 let number = 0
 let tries = 0
 let random = 0
-const min = 0
+let expectedIncrment = 0
+let expectedDecrement = 0
+const min = 1
 const max = 50
 
 export default class Index extends Component {
@@ -21,11 +23,12 @@ export default class Index extends Component {
 		super(props)
 
 		this.state = {
-			number: 0,
-			guessed_value: 0,
+			number: 1,
+			guessed_value: 1,
 			value: 'greater',
 			won: false,
-			snackVisible: false
+			snackVisible: false,
+			activeSelector: 1
 		}
 
 		this.guessValue = this.guessValue.bind(this)
@@ -39,24 +42,73 @@ export default class Index extends Component {
 			guessed_value,
 			won,
 			tries,
-			snackVisible
+			snackVisible,
+			activeSelector
 		} = this.state
 
 		const visible = this.props.navigation.getParam('visible', false)
+		expectedIncrment = number + activeSelector
+		expectedDecrement = number - activeSelector
 
 		return (
 			<Fragment>
 				<Text style={styles.title}>
 					Guess the correct number between {min} - {max}
 				</Text>
+				<View style={styles.selectorContainer}>
+					<Button
+						onPress={() => this.setState({ activeSelector: 1 })}
+						style={[
+							styles.selectorBtn,
+							activeSelector === 1
+								? { backgroundColor: '#dbdbdb' }
+								: null
+						]}>
+						&#177; 1
+					</Button>
+					<Button
+						onPress={() => this.setState({ activeSelector: 2 })}
+						style={[
+							styles.selectorBtn,
+							activeSelector === 2
+								? { backgroundColor: '#dbdbdb' }
+								: null
+						]}>
+						&#177; 2
+					</Button>
+					<Button
+						onPress={() => this.setState({ activeSelector: 5 })}
+						style={[
+							styles.selectorBtn,
+							activeSelector === 5
+								? { backgroundColor: '#dbdbdb' }
+								: null
+						]}>
+						&#177; 5
+					</Button>
+					<Button
+						onPress={() => this.setState({ activeSelector: 10 })}
+						style={[
+							styles.selectorBtn,
+							activeSelector === 10
+								? { backgroundColor: '#dbdbdb' }
+								: null
+						]}>
+						&#177; 10
+					</Button>
+				</View>
 				<View style={styles.container}>
 					<View style={styles.padder}>
 						<Button
 							mode="contained"
-							onPress={() => this.changeValue('plus')}
+							onPress={() =>
+								this.changeValue('plus', activeSelector)
+							}
 							style={styles.button}
-							disabled={!!(number === 50 || won)}>
-							+1
+							disabled={
+								number === max || expectedIncrment > max || won
+							}>
+							+ {activeSelector}
 						</Button>
 					</View>
 					<View style={styles.padder}>
@@ -65,10 +117,14 @@ export default class Index extends Component {
 					<View style={styles.padder}>
 						<Button
 							mode="contained"
-							onPress={() => this.changeValue('minus')}
+							onPress={() =>
+								this.changeValue('minus', activeSelector)
+							}
 							style={styles.button}
-							disabled={!!(number === 0 || won)}>
-							-1
+							disabled={
+								number === min || expectedDecrement < min || won
+							}>
+							- {activeSelector}
 						</Button>
 					</View>
 					<View style={styles.padder}>
@@ -132,6 +188,12 @@ export default class Index extends Component {
 		this.generateRandom()
 	}
 
+	componentWillMount() {
+		expectedIncrment = 0
+		expectedDecrement = 0
+		number = 1
+	}
+
 	hideDialog = () => this.props.navigation.setParams({ visible: false })
 
 	generateRandom() {
@@ -141,13 +203,13 @@ export default class Index extends Component {
 	playAgain() {
 		// Clear all the data
 		this.generateRandom()
-		number = 0
+		number = 1
 		tries = 0
 		this.setState({
 			won: false,
 			value: 'greater',
-			guessed_value: 0,
-			number: 0
+			guessed_value: 1,
+			number: 1
 		})
 	}
 
@@ -172,18 +234,16 @@ export default class Index extends Component {
 		this.setState({ tries })
 	}
 
-	changeValue(name) {
-		if (number >= min && number <= max) {
-			if (name === 'plus' && number < max) {
-				number++
-			}
-
-			if (name === 'minus' && number > min) {
-				number--
-			}
-
-			this.setState({ number })
+	changeValue(name, selector) {
+		if (name === 'plus' && number < max) {
+			number += selector
 		}
+
+		if (name === 'minus' && number > min) {
+			number -= selector
+		}
+
+		this.setState({ number })
 	}
 }
 
@@ -208,5 +268,16 @@ const styles = StyleSheet.create({
 	},
 	currentNumber: {
 		fontSize: 22
+	},
+	selectorContainer: {
+		flexDirection: 'row',
+		marginTop: 10,
+		marginLeft: 6,
+		marginRight: 6
+	},
+	selectorBtn: {
+		flex: 1,
+		margin: 6,
+		backgroundColor: '#eee'
 	}
 })
