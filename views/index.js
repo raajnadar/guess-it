@@ -167,8 +167,7 @@ export default class Index extends Component {
 				</Portal>
 				<Snackbar
 					visible={snackVisible}
-					duration={1500}
-					onDismiss={() => this.setState({ snackVisible: false })}>
+					duration={2000}>
 					{won ? (
 						<Text style={{ color: '#fff' }}>
 							You guessed in {tries} tries
