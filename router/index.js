@@ -1,14 +1,15 @@
+/* eslint-disable object-shorthand */
 import React from 'react'
 
 import { Appbar } from 'react-native-paper'
 
 import { createAppContainer, createStackNavigator } from 'react-navigation'
 
-import Index from '../views'
+import Game from '../views/Game'
 
 const stack = createStackNavigator(
 	{
-		Index
+		Game: Game
 	},
 	{
 		defaultNavigationOptions: ({ navigation }) => ({
@@ -22,7 +23,7 @@ const stack = createStackNavigator(
 				</Appbar.Header>
 			)
 		}),
-		initialRouteName: 'Index'
+		initialRouteName: 'Game'
 	}
 )
 
