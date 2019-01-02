@@ -41,13 +41,12 @@ export default class Game extends Component {
 				</Text>
 				<View style={styles.container}>
 					{items.map((data, index) => {
-						let i = index
 						return (
 							<NumberTile
-								key={i}
-								index={i}
+								key={data.value}
+								index={data.value}
 								disabled={data.disabled}
-								onPress={() => this.guessValue(i)}
+								onPress={() => this.guessValue(data.value)}
 							/>
 						)
 					})}
@@ -88,7 +87,7 @@ export default class Game extends Component {
 	guessValue = number => {
 		tries++
 		guessed_value.push(number)
-		items[number].disabled = true
+		items[number - 1].disabled = true
 
 		if (number > random) {
 			this.setState({
@@ -127,7 +126,7 @@ export default class Game extends Component {
 		items = []
 
 		for (var i = 1; i <= max; i++) {
-			items.push({ [i]: i, disabled: false })
+			items.push({ value: i, disabled: false })
 		}
 	}
 }
