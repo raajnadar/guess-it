@@ -25,12 +25,13 @@ export default class Game extends Component {
 			tries: 0,
 			won: false,
 			guessed: [],
-			value: ''
+			value: '',
+			isModalVisible: false
 		}
 	}
 
 	render() {
-		const { guessed, value, won } = this.state
+		const { guessed, value, won, isModalVisible } = this.state
 
 		return (
 			<View>
@@ -51,11 +52,24 @@ export default class Game extends Component {
 						)
 					})}
 				</View>
+				{won ? (
+					<View style={styles.playAgainContainer}>
+						<Button
+							style={styles.playAgainBtn}
+							mode="contained"
+							compact
+							onPress={this.playAgain}>
+							Play Again?
+						</Button>
+					</View>
+				) : null}
 				<Portal>
 					<Dialog
-						visible={won}
+						visible={isModalVisible}
 						dismissable={false}
-						onDismiss={() => this.setState({ won: false })}>
+						onDismiss={() =>
+							this.setState({ isModalVisible: false })
+						}>
 						<Dialog.Title>You won!</Dialog.Title>
 						<Dialog.Content>
 							<Paragraph>
@@ -67,6 +81,12 @@ export default class Game extends Component {
 						<Dialog.Actions>
 							<Button onPress={this.playAgain}>
 								Play Again?
+							</Button>
+							<Button
+								onPress={() =>
+									this.setState({ isModalVisible: false })
+								}>
+								Exit
 							</Button>
 						</Dialog.Actions>
 					</Dialog>
@@ -104,7 +124,7 @@ export default class Game extends Component {
 				items: items
 			})
 		} else {
-			this.setState({ won: true, tries: tries })
+			this.setState({ won: true, isModalVisible: true, tries: tries })
 		}
 	}
 
@@ -140,5 +160,12 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		padding: 10,
 		textAlign: 'center'
+	},
+	playAgainContainer: {
+		alignItems: 'center'
+	},
+	playAgainBtn: {
+		margin: 10,
+		width: '50%'
 	}
 })
