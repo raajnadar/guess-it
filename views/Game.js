@@ -1,7 +1,7 @@
 /* eslint-disable object-shorthand */
 import React, { Component } from 'react'
 
-import { StyleSheet, Text, View } from 'react-native'
+import { Linking, StyleSheet, Text, View } from 'react-native'
 
 import { Button, Dialog, Paragraph, Portal } from 'react-native-paper'
 
@@ -32,6 +32,8 @@ export default class Game extends Component {
 
 	render() {
 		const { guessed, value, won, isModalVisible } = this.state
+		const { navigation } = this.props
+		const visible = navigation.getParam('isCreditsDialogVisible', false)
 
 		return (
 			<View>
@@ -87,6 +89,30 @@ export default class Game extends Component {
 									this.setState({ isModalVisible: false })
 								}>
 								Exit
+							</Button>
+						</Dialog.Actions>
+					</Dialog>
+					<Dialog visible={visible} dismissable={false}>
+						<Dialog.Content>
+							<Paragraph>
+								Guess the number mobile application developed by
+								rajendran nadar
+							</Paragraph>
+						</Dialog.Content>
+						<Dialog.Actions>
+							<Button
+								onPress={() =>
+									Linking.openURL('https://raajnadar.in')
+								}>
+								Portfolio
+							</Button>
+							<Button
+								onPress={() =>
+									this.props.navigation.setParams({
+										isCreditsDialogVisible: false
+									})
+								}>
+								Close
 							</Button>
 						</Dialog.Actions>
 					</Dialog>

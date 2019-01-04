@@ -18,7 +18,11 @@ const stack = createStackNavigator(
 					<Appbar.Content title="Guess It" />
 					<Appbar.Action
 						icon="code"
-						onPress={() => navigation.setParams({ visible: true })}
+						onPress={() =>
+							navigation.setParams({
+								isCreditsDialogVisible: true
+							})
+						}
 					/>
 				</Appbar.Header>
 			)
