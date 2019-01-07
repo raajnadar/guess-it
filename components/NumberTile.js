@@ -19,7 +19,8 @@ export default class NumberTile extends Component {
 
 		return (
 			<TouchableOpacity
-				onPress={onPress}
+				onPress={!disabled ? onPress : null}
+				activeOpacity={!disabled ? 0.2 : 1}
 				style={[styles.container, { backgroundColor: indexColor }]}>
 				<Text style={styles.text}>{index}</Text>
 			</TouchableOpacity>
