@@ -40,7 +40,9 @@ export default class Game extends Component {
 				<Text style={styles.hint}>
 					{value === ''
 						? 'Click on a number to get a hint'
-						: `${guessed[guessed.length - 1]} is ${value}`}
+						: `${
+								guessed[guessed.length - 1]
+						  } is ${value} than the random number`}
 				</Text>
 				<View style={styles.container}>
 					{items.map((data, index) => {
@@ -55,13 +57,13 @@ export default class Game extends Component {
 					})}
 				</View>
 				{won ? (
-					<View style={styles.playAgainContainer}>
+					<View style={styles.newGameContainer}>
 						<Button
-							style={styles.playAgainBtn}
+							style={styles.newGameBtn}
 							mode="contained"
 							compact
-							onPress={this.playAgain}>
-							Play Again?
+							onPress={this.newGame}>
+							New Game
 						</Button>
 					</View>
 				) : null}
@@ -81,9 +83,6 @@ export default class Game extends Component {
 							</Paragraph>
 						</Dialog.Content>
 						<Dialog.Actions>
-							<Button onPress={this.playAgain}>
-								Play Again?
-							</Button>
 							<Button
 								onPress={() =>
 									this.setState({ isModalVisible: false })
@@ -137,14 +136,14 @@ export default class Game extends Component {
 
 		if (number > random) {
 			this.setState({
-				value: 'high',
+				value: 'greater',
 				guessed: guessed_value,
 				tries: tries,
 				items: items
 			})
 		} else if (number < random) {
 			this.setState({
-				value: 'low',
+				value: 'lesser',
 				guessed: guessed_value,
 				tries: tries,
 				items: items
@@ -154,7 +153,7 @@ export default class Game extends Component {
 		}
 	}
 
-	playAgain = () => {
+	newGame = () => {
 		// Clear all the data
 		this.generateRandom()
 		this.resetData()
@@ -187,10 +186,10 @@ const styles = StyleSheet.create({
 		padding: 10,
 		textAlign: 'center'
 	},
-	playAgainContainer: {
+	newGameContainer: {
 		alignItems: 'center'
 	},
-	playAgainBtn: {
+	newGameBtn: {
 		margin: 10,
 		width: '50%'
 	}
