@@ -51,6 +51,7 @@ export default class Game extends Component {
 								key={data.value}
 								index={data.value}
 								disabled={data.disabled}
+								won={won}
 								onPress={() => this.guessValue(data.value)}
 							/>
 						)

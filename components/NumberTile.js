@@ -4,7 +4,7 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 
 export default class NumberTile extends Component {
 	render() {
-		const { index, onPress, disabled } = this.props
+		const { index, onPress, disabled, won } = this.props
 		let indexColor = '#551A8B'
 
 		if (index % 2 === 0) {
@@ -19,8 +19,8 @@ export default class NumberTile extends Component {
 
 		return (
 			<TouchableOpacity
-				onPress={!disabled ? onPress : null}
-				activeOpacity={!disabled ? 0.2 : 1}
+				onPress={!(disabled || won) ? onPress : null}
+				activeOpacity={!(disabled || won) ? 0.2 : 1}
 				style={[styles.container, { backgroundColor: indexColor }]}>
 				<Text style={styles.text}>{index}</Text>
 			</TouchableOpacity>
