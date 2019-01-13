@@ -31,19 +31,13 @@ export default class Game extends Component {
 	}
 
 	render() {
-		const { guessed, value, won, isModalVisible } = this.state
+		const { won, isModalVisible } = this.state
 		const { navigation } = this.props
 		const visible = navigation.getParam('isCreditsDialogVisible', false)
 
 		return (
 			<View>
-				<Text style={styles.hint}>
-					{value === ''
-						? 'Click on a number to get a hint'
-						: `${
-								guessed[guessed.length - 1]
-						  } is ${value} than the random number`}
-				</Text>
+				<Text style={styles.hint}>{this.hintMessage()}</Text>
 				<View style={styles.container}>
 					{items.map((data, index) => {
 						return (
@@ -129,6 +123,20 @@ export default class Game extends Component {
 
 	generateRandom() {
 		random = Math.floor(Math.random() * (max - min + 1) + min)
+	}
+
+	hintMessage = () => {
+		let currentNumber = this.state.guessed[this.state.guessed.length - 1]
+
+		if (this.state.value !== '' && !this.state.won) {
+			return `${currentNumber} is ${
+				this.state.value
+			} than the random number`
+		} else if (this.state.won) {
+			return `You guessed in ${tries} tries`
+		} else {
+			return 'Click on a number to get a hint'
+		}
 	}
 
 	guessValue = number => {
