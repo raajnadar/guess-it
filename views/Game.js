@@ -50,6 +50,7 @@ export default class Game extends Component {
 							<NumberTile
 								key={data.value}
 								index={data.value}
+								random={random}
 								disabled={data.disabled}
 								won={won}
 								onPress={() => this.guessValue(data.value)}
