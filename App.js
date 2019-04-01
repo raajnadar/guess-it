@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper'
 
-import Router from './router'
+import Router from './router/Router'
 
 export default class App extends Component {
 	render() {

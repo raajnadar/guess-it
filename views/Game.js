@@ -3,7 +3,15 @@ import React, { Component } from 'react'
 
 import { Linking, StyleSheet, Text, View } from 'react-native'
 
-import { Button, Dialog, Paragraph, Portal } from 'react-native-paper'
+import {
+	Appbar,
+	Button,
+	Dialog,
+	IconButton,
+	Menu,
+	Paragraph,
+	Portal
+} from 'react-native-paper'
 
 import NumberTile from '../components/NumberTile'
 
@@ -26,7 +34,35 @@ export default class Game extends Component {
 			won: false,
 			guessed: [],
 			value: '',
-			isModalVisible: false
+			isModalVisible: false,
+			menuVisibility: false
+		}
+	}
+
+	static navigationOptions = ({ navigation }) => {
+		const { params = {} } = navigation.state
+
+		return {
+			header: (
+				<Appbar.Header>
+					<Appbar.Content title="Guess It" />
+					<Menu
+						visible={params.menuVisibility}
+						anchor={
+							<IconButton
+								color={'#fff'}
+								icon="more-vert"
+								onPress={() =>
+									navigation.setParams({
+										menuVisibility: !params.menuVisibility
+									})
+								}
+							/>
+						}>
+						<Menu.Item title="Developer" />
+					</Menu>
+				</Appbar.Header>
+			)
 		}
 	}
 
