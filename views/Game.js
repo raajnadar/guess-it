@@ -81,7 +81,7 @@ export default class Game extends Component {
 			<View>
 				<Text style={styles.hint}>{this.hintMessage()}</Text>
 				<View style={styles.container}>
-					{items.map((data, index) => {
+					{items.map(data => {
 						return (
 							<NumberTile
 								key={data.value}
@@ -212,7 +212,8 @@ const styles = StyleSheet.create({
 	hint: {
 		fontSize: 20,
 		padding: 10,
-		textAlign: 'center'
+		textAlign: 'center',
+		color: '#FF0000'
 	},
 	newGameContainer: {
 		alignItems: 'center'
