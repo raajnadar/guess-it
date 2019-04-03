@@ -15,6 +15,8 @@ import {
 
 import NumberTile from '../components/NumberTile'
 
+import HowToPlay from './HowToPlay'
+
 let items = []
 
 const min = 1
@@ -35,7 +37,8 @@ export default class Game extends Component {
 			guessed: [],
 			value: '',
 			isModalVisible: false,
-			menuVisibility: false
+			menuVisibility: false,
+			isHowToPlayVisible: true
 		}
 	}
 
@@ -60,15 +63,6 @@ export default class Game extends Component {
 							/>
 						}>
 						<Menu.Item
-							title="How to play?"
-							onPress={() => {
-								navigation.push('HowToPlay')
-								navigation.setParams({
-									menuVisibility: false
-								})
-							}}
-						/>
-						<Menu.Item
 							title="Developer"
 							onPress={() => {
 								navigation.push('Developer')
@@ -84,7 +78,7 @@ export default class Game extends Component {
 	}
 
 	render() {
-		const { won, isModalVisible } = this.state
+		const { won, isModalVisible, isHowToPlayVisible } = this.state
 
 		return (
 			<View>
@@ -103,6 +97,12 @@ export default class Game extends Component {
 						)
 					})}
 				</View>
+				<Portal>
+					<HowToPlay
+						visible={isHowToPlayVisible}
+						HowToPlayToggle={this.HowToPlayToggle}
+					/>
+				</Portal>
 				{won ? (
 					<View style={styles.newGameContainer}>
 						<Button
@@ -210,6 +210,10 @@ export default class Game extends Component {
 		for (var i = 1; i <= max; i++) {
 			items.push({ value: i, disabled: false })
 		}
+	}
+
+	HowToPlayToggle = () => {
+		this.setState({ isHowToPlayVisible: false })
 	}
 }
 

@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 import { StyleSheet, Text, View } from 'react-native'
 
 import { Button } from 'react-native-paper'
 
-class HowToPlay extends Component {
-	render() {
-		const { navigation } = this.props
+function HowToPlay(props) {
+	const { visible } = props
 
+	if (visible) {
 		return (
 			<View style={styles.container}>
 				<View style={styles.howToContainer}>
@@ -37,20 +37,23 @@ class HowToPlay extends Component {
 						style={styles.btn}
 						mode="contained"
 						uppercase={false}
-						onPress={() => navigation.push('Game')}>
+						onPress={() => props.HowToPlayToggle(false)}>
 						Let's Play
 					</Button>
 				</View>
 			</View>
 		)
 	}
+
+	return null
 }
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		justifyContent: 'space-between',
-		padding: 40
+		padding: 40,
+		backgroundColor: '#fff'
 	},
 	btnContainer: {
 		display: 'flex',
