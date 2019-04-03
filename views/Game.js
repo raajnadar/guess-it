@@ -60,6 +60,15 @@ export default class Game extends Component {
 							/>
 						}>
 						<Menu.Item
+							title="How to play?"
+							onPress={() => {
+								navigation.push('HowToPlay')
+								navigation.setParams({
+									menuVisibility: false
+								})
+							}}
+						/>
+						<Menu.Item
 							title="Developer"
 							onPress={() => {
 								navigation.push('Developer')

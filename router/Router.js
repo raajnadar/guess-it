@@ -3,14 +3,19 @@ import { createAppContainer, createStackNavigator } from 'react-navigation'
 
 import Developer from '../views/Developer'
 import Game from '../views/Game'
+import HowToPlay from '../views/HowToPlay'
 
 const stack = createStackNavigator(
 	{
 		Developer: Developer,
-		Game: Game
+		Game: Game,
+		HowToPlay: HowToPlay
 	},
 	{
-		initialRouteName: 'Game'
+		defaultNavigationOptions: {
+			header: null
+		},
+		initialRouteName: 'HowToPlay'
 	}
 )
 
