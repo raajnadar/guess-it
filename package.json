@@ -9,17 +9,16 @@
     "eject": "expo eject"
   },
   "dependencies": {
-    "expo": "^32.0.6",
-    "react": "16.6.3",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
-    "react-native-paper": "^2.15.2",
-    "react-navigation": "^3.9.1"
+    "expo": "^33.0.0",
+    "react": "16.8.3",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
+    "react-native-paper": "^2.16.0",
+    "react-navigation": "^3.11.0"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.1.1",
     "eslint": "^5.16.0",
     "eslint-config-expo": "^6.0.0",
-    "prettier": "^1.17.0",
-    "schedule": "0.4.0"
+    "prettier": "^1.17.0"
   }
 }
