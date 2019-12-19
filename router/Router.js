@@ -1,5 +1,7 @@
 /* eslint-disable object-shorthand */
-import { createAppContainer, createStackNavigator } from 'react-navigation'
+import { createAppContainer } from 'react-navigation'
+
+import { createStackNavigator } from 'react-navigation-stack'
 
 import Developer from '../views/Developer'
 import Game from '../views/Game'

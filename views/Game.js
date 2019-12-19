@@ -54,7 +54,7 @@ export default class Game extends Component {
 						anchor={
 							<IconButton
 								color={'#fff'}
-								icon="more-vert"
+								icon="dots-vertical"
 								onPress={() =>
 									navigation.setParams({
 										menuVisibility: !params.menuVisibility
@@ -156,9 +156,7 @@ export default class Game extends Component {
 		let currentNumber = this.state.guessed[this.state.guessed.length - 1]
 
 		if (this.state.value !== '' && !this.state.won) {
-			return `${currentNumber} is ${
-				this.state.value
-			} than the random number`
+			return `${currentNumber} is ${this.state.value} than the random number`
 		} else if (this.state.won) {
 			return `You guessed in ${tries} tries`
 		} else {
