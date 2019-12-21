@@ -82,10 +82,6 @@ project.ext.react = [
 
 apply from: "../../node_modules/react-native/react.gradle"
 
-project.ext.vectoricons = [
-  iconFontNames: 'MaterialIcons.ttf'
-]
-
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
 /**
@@ -185,7 +181,6 @@ android {
 }
 
 dependencies {
-    implementation project(':react-native-vector-icons')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
