@@ -153,7 +153,7 @@ export default class Game extends Component {
 	}
 
 	hintMessage = () => {
-		let currentNumber = this.state.guessed[this.state.guessed.length - 1]
+		const currentNumber = this.state.guessed[this.state.guessed.length - 1]
 
 		if (this.state.value !== '' && !this.state.won) {
 			return `${currentNumber} is ${this.state.value} than the random number`
@@ -205,7 +205,7 @@ export default class Game extends Component {
 	resetData = () => {
 		items = []
 
-		for (var i = 1; i <= max; i++) {
+		for (let i = 1; i <= max; i++) {
 			items.push({ value: i, disabled: false })
 		}
 	}
