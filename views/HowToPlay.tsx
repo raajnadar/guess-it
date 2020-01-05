@@ -4,7 +4,12 @@ import { StyleSheet, Text, View } from 'react-native'
 
 import { Button } from 'react-native-paper'
 
-export default function HowToPlay(props) {
+type Props = {
+	visible: boolean
+	HowToPlayToggle: (val: boolean) => void
+}
+
+export default function HowToPlay(props: Props): JSX.Element | null {
 	const { visible } = props
 
 	if (visible) {
@@ -37,8 +42,8 @@ export default function HowToPlay(props) {
 						style={styles.btn}
 						mode="contained"
 						uppercase={false}
-						onPress={() => props.HowToPlayToggle(false)}>
-						Let's Play
+						onPress={(): void => props.HowToPlayToggle(false)}>
+						Let&apos;s Play
 					</Button>
 				</View>
 			</View>

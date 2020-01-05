@@ -2,7 +2,15 @@ import React from 'react'
 
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 
-export default function NumberTile(props) {
+type Props = {
+	index: number
+	onPress: () => void | undefined
+	disabled: boolean
+	random: number
+	won: boolean
+}
+
+export default function NumberTile(props: Props): JSX.Element {
 	const { index, onPress, disabled, random, won } = props
 	let indexColor = '#551A8B'
 
@@ -22,7 +30,7 @@ export default function NumberTile(props) {
 
 	return (
 		<TouchableOpacity
-			onPress={!(disabled || won) ? onPress : null}
+			onPress={!(disabled || won) ? onPress : undefined}
 			activeOpacity={!(disabled || won) ? 0.2 : 1}
 			style={[styles.container, { backgroundColor: indexColor }]}>
 			<Text style={styles.text}>{index}</Text>

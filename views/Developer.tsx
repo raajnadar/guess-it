@@ -4,7 +4,7 @@ import { Linking, StyleSheet, View } from 'react-native'
 
 import { Appbar, Button, Card, Paragraph } from 'react-native-paper'
 
-export default function Developer() {
+export default function Developer(): JSX.Element {
 	return (
 		<View style={styles.container}>
 			<Card style={{ marginBottom: 10 }}>
@@ -16,7 +16,9 @@ export default function Developer() {
 				</Card.Content>
 				<Card.Actions>
 					<Button
-						onPress={() => Linking.openURL('https://raajnadar.in')}>
+						onPress={(): Promise<any> =>
+							Linking.openURL('https://raajnadar.in')
+						}>
 						View Portfolio
 					</Button>
 				</Card.Actions>
@@ -32,11 +34,11 @@ export default function Developer() {
 	)
 }
 
-Developer.navigationOptions = ({ navigation }) => {
+Developer.navigationOptions = ({ navigation }: any): any => {
 	return {
 		header: (
 			<Appbar.Header>
-				<Appbar.BackAction onPress={() => navigation.goBack()} />
+				<Appbar.BackAction onPress={(): void => navigation.goBack()} />
 				<Appbar.Content title="Guess It" />
 			</Appbar.Header>
 		)

@@ -5,9 +5,9 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "start": "react-native start",
+		"start": "react-native start",
     "test": "jest",
-    "lint": "eslint **/*{.js,.jsx}"
+    "lint": "eslint **/*{.ts,.tsx}"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.6",
@@ -25,6 +25,8 @@
   "devDependencies": {
     "@babel/core": "^7.6.2",
     "@babel/runtime": "^7.6.2",
+    "@types/react": "^16.9.22",
+    "@types/react-native": "^0.61.16",
     "@typescript-eslint/eslint-plugin": "^2.16.0",
     "@typescript-eslint/parser": "^2.16.0",
     "babel-jest": "^24.9.0",

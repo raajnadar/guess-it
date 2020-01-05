@@ -18,17 +18,20 @@ import HowToPlay from './HowToPlay'
 
 const min = 1
 const max = 30
-let random = 0
-let guessed_value = []
 
-export default function Game(props) {
-	const [items, setItem] = useState([])
+type Item = {
+	value: number
+	disabled: boolean
+}
+
+export default function Game(): JSX.Element {
+	const [items, setItem] = useState<Array<Item>>([])
+	const [random, setRandom] = useState(0)
 	const [tries, setTries] = useState(0)
 	const [won, setWonStatus] = useState(false)
-	const [guessed, setGuessed] = useState([])
+	const [guessed, setGuessed] = useState<Array<number>>([])
 	const [value, setValue] = useState('')
 	const [isModalVisible, setModalVisibility] = useState(false)
-	const [menuVisibility, setVisibility] = useState(false)
 	const [isHowToPlayVisible, setHowToPlayVisibility] = useState(true)
 
 	useEffect(() => {
@@ -36,11 +39,11 @@ export default function Game(props) {
 		generateRandom()
 	}, [])
 
-	const generateRandom = () => {
-		random = Math.floor(Math.random() * (max - min + 1) + min)
+	const generateRandom = (): void => {
+		setRandom(Math.floor(Math.random() * (max - min + 1) + min))
 	}
 
-	const hintMessage = () => {
+	const hintMessage = (): string => {
 		const currentNumber = guessed[guessed.length - 1]
 
 		if (value !== '' && !won) {
@@ -52,20 +55,22 @@ export default function Game(props) {
 		}
 	}
 
-	const guessValue = number => {
+	const guessValue = (number: number): void => {
 		const temp = items
 		const tempTries = tries + 1
-		guessed_value.push(number)
+		const tempGuessedValue = guessed
+
+		tempGuessedValue.push(number)
 		temp[number - 1].disabled = true
 
 		if (number > random) {
 			setValue('greater')
-			setGuessed(guessed_value)
+			setGuessed(tempGuessedValue)
 			setTries(tempTries)
 			setItem(temp)
 		} else if (number < random) {
 			setValue('lesser')
-			setGuessed(guessed_value)
+			setGuessed(tempGuessedValue)
 			setTries(tempTries)
 			setItem(temp)
 		} else {
@@ -75,18 +80,17 @@ export default function Game(props) {
 		}
 	}
 
-	const newGame = () => {
+	const newGame = (): void => {
 		// Clear all the data
 		generateRandom()
 		resetData()
-		guessed_value = []
 		setWonStatus(false)
 		setValue('')
 		setTries(0)
-		setGuessed(guessed_value)
+		setGuessed([])
 	}
 
-	const resetData = () => {
+	const resetData = (): void => {
 		const temp = []
 
 		for (let i = 1; i <= max; i++) {
@@ -95,21 +99,23 @@ export default function Game(props) {
 		setItem(temp)
 	}
 
-	const HowToPlayToggle = () => setHowToPlayVisibility(false)
+	const HowToPlayToggle = (): void => setHowToPlayVisibility(false)
 
 	return (
 		<View>
 			<Text style={styles.hint}>{hintMessage()}</Text>
 			<View style={styles.container}>
 				{items.map(data => {
+					const { disabled, value } = data
+
 					return (
 						<NumberTile
-							key={data.value}
-							index={data.value}
-							random={random}
-							disabled={data.disabled}
 							won={won}
-							onPress={() => guessValue(data.value)}
+							random={random}
+							key={value}
+							index={value}
+							disabled={disabled}
+							onPress={(): void => guessValue(value)}
 						/>
 					)
 				})}
@@ -135,17 +141,16 @@ export default function Game(props) {
 				<Dialog
 					visible={isModalVisible}
 					dismissable={false}
-					onDismiss={() => setModalVisibility(false)}>
+					onDismiss={(): void => setModalVisibility(false)}>
 					<Dialog.Title>You won!</Dialog.Title>
 					<Dialog.Content>
 						<Paragraph>
-							The random number is{' '}
-							{guessed_value[guessed_value.length - 1]}, You
-							guessed in {tries} tries
+							The random number is
+							{random}, You guessed in {tries} tries
 						</Paragraph>
 					</Dialog.Content>
 					<Dialog.Actions>
-						<Button onPress={() => setModalVisibility(false)}>
+						<Button onPress={(): void => setModalVisibility(false)}>
 							Exit
 						</Button>
 					</Dialog.Actions>
@@ -155,7 +160,7 @@ export default function Game(props) {
 	)
 }
 
-Game.navigationOptions = ({ navigation }) => {
+Game.navigationOptions = ({ navigation }: any): any => {
 	const { params = {} } = navigation.state
 
 	return {
@@ -164,11 +169,16 @@ Game.navigationOptions = ({ navigation }) => {
 				<Appbar.Content title="Guess It" />
 				<Menu
 					visible={params.menuVisibility}
+					onDismiss={(): void =>
+						navigation.setParams({
+							menuVisibility: false
+						})
+					}
 					anchor={
 						<IconButton
 							color={'#fff'}
 							icon="dots-vertical"
-							onPress={() =>
+							onPress={(): void =>
 								navigation.setParams({
 									menuVisibility: !params.menuVisibility
 								})
@@ -177,7 +187,7 @@ Game.navigationOptions = ({ navigation }) => {
 					}>
 					<Menu.Item
 						title="Developer"
-						onPress={() => {
+						onPress={(): void => {
 							navigation.push('Developer')
 							navigation.setParams({
 								menuVisibility: false
