@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native'
 
 import { Button } from 'react-native-paper'
 
-function HowToPlay(props) {
+export default function HowToPlay(props) {
 	const { visible } = props
 
 	if (visible) {
@@ -73,5 +73,3 @@ const styles = StyleSheet.create({
 		textAlign: 'center'
 	}
 })
-
-export default HowToPlay
