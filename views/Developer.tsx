@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Linking, StyleSheet, View } from 'react-native'
 
-import { Appbar, Button, Card, Paragraph } from 'react-native-paper'
+import { Button, Card, Paragraph } from 'react-native-paper'
 
 export default function Developer(): JSX.Element {
 	return (
@@ -26,23 +26,12 @@ export default function Developer(): JSX.Element {
 			<Card>
 				<Card.Content>
 					<Paragraph style={styles.text}>
-						Build using React Native with Expo &lt;3
+						Build using React Native
 					</Paragraph>
 				</Card.Content>
 			</Card>
 		</View>
 	)
-}
-
-Developer.navigationOptions = ({ navigation }: any): any => {
-	return {
-		header: (
-			<Appbar.Header>
-				<Appbar.BackAction onPress={(): void => navigation.goBack()} />
-				<Appbar.Content title="Guess It" />
-			</Appbar.Header>
-		)
-	}
 }
 
 const styles = StyleSheet.create({

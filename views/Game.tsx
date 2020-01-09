@@ -2,15 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { StyleSheet, Text, View } from 'react-native'
 
-import {
-	Appbar,
-	Button,
-	Dialog,
-	IconButton,
-	Menu,
-	Paragraph,
-	Portal
-} from 'react-native-paper'
+import { Button, Dialog, Paragraph, Portal } from 'react-native-paper'
 
 import NumberTile from '../components/NumberTile'
 
@@ -158,46 +150,6 @@ export default function Game(): JSX.Element {
 			</Portal>
 		</View>
 	)
-}
-
-Game.navigationOptions = ({ navigation }: any): any => {
-	const { params = {} } = navigation.state
-
-	return {
-		header: (
-			<Appbar.Header>
-				<Appbar.Content title="Guess It" />
-				<Menu
-					visible={params.menuVisibility}
-					onDismiss={(): void =>
-						navigation.setParams({
-							menuVisibility: false
-						})
-					}
-					anchor={
-						<IconButton
-							color={'#fff'}
-							icon="dots-vertical"
-							onPress={(): void =>
-								navigation.setParams({
-									menuVisibility: !params.menuVisibility
-								})
-							}
-						/>
-					}>
-					<Menu.Item
-						title="Developer"
-						onPress={(): void => {
-							navigation.push('Developer')
-							navigation.setParams({
-								menuVisibility: false
-							})
-						}}
-					/>
-				</Menu>
-			</Appbar.Header>
-		)
-	}
 }
 
 const styles = StyleSheet.create({
