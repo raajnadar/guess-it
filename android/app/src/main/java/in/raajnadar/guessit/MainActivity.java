@@ -1,4 +1,4 @@
-package com.guessit;
+package in.raajnadar.guessit;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

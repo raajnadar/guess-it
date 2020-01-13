@@ -1,4 +1,4 @@
-package com.guessit;
+package in.raajnadar.guessit;
 
 import android.app.Application;
 import android.content.Context;
