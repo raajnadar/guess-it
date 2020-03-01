@@ -76,7 +76,8 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    entryFile: "index.js",
+		bundleAssetName: "index.android.bundle",
+    entryFile: "index.ts",
     enableHermes: true,  // clean and rebuild if changing
 ]
 
