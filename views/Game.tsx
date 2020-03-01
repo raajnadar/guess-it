@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
-import { Button, Dialog, Paragraph, Portal } from 'react-native-paper'
+import { Button, Dialog, Paragraph, Portal, Text } from 'react-native-paper'
 
 import NumberTile from '../components/NumberTile'
 
@@ -23,6 +23,7 @@ export default function Game(): JSX.Element {
 	const [won, setWonStatus] = useState(false)
 	const [guessed, setGuessed] = useState<Array<number>>([])
 	const [value, setValue] = useState('')
+
 	const [isModalVisible, setModalVisibility] = useState(false)
 	const [isHowToPlayVisible, setHowToPlayVisibility] = useState(true)
 
@@ -31,9 +32,8 @@ export default function Game(): JSX.Element {
 		generateRandom()
 	}, [])
 
-	const generateRandom = (): void => {
+	const generateRandom = (): void =>
 		setRandom(Math.floor(Math.random() * (max - min + 1) + min))
-	}
 
 	const hintMessage = (): string => {
 		const currentNumber = guessed[guessed.length - 1]
@@ -103,9 +103,9 @@ export default function Game(): JSX.Element {
 					return (
 						<NumberTile
 							won={won}
-							random={random}
 							key={value}
 							index={value}
+							random={random}
 							disabled={disabled}
 							onPress={(): void => guessValue(value)}
 						/>
@@ -121,24 +121,24 @@ export default function Game(): JSX.Element {
 			{won ? (
 				<View style={styles.newGameContainer}>
 					<Button
-						style={styles.newGameBtn}
-						mode="contained"
 						compact
-						onPress={newGame}>
+						mode="contained"
+						onPress={newGame}
+						style={styles.newGameBtn}>
 						New Game
 					</Button>
 				</View>
 			) : null}
 			<Portal>
 				<Dialog
-					visible={isModalVisible}
 					dismissable={false}
+					visible={isModalVisible}
 					onDismiss={(): void => setModalVisibility(false)}>
 					<Dialog.Title>You won!</Dialog.Title>
 					<Dialog.Content>
 						<Paragraph>
-							The random number is
-							{random}, You guessed in {tries} tries
+							The random number is {random}, You guessed in{' '}
+							{tries} tries
 						</Paragraph>
 					</Dialog.Content>
 					<Dialog.Actions>

@@ -1,6 +1,8 @@
 import React from 'react'
 
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, TouchableOpacity } from 'react-native'
+
+import { Text } from 'react-native-paper'
 
 type Props = {
 	index: number
