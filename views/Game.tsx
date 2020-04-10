@@ -6,8 +6,6 @@ import { Button, Dialog, Paragraph, Portal, Text } from 'react-native-paper'
 
 import NumberTile from '../components/NumberTile'
 
-import HowToPlay from './HowToPlay'
-
 const min = 1
 const max = 30
 
@@ -25,7 +23,6 @@ export default function Game(): JSX.Element {
 	const [value, setValue] = useState('')
 
 	const [isModalVisible, setModalVisibility] = useState(false)
-	const [isHowToPlayVisible, setHowToPlayVisibility] = useState(true)
 
 	useEffect(() => {
 		resetData()
@@ -91,8 +88,6 @@ export default function Game(): JSX.Element {
 		setItem(temp)
 	}
 
-	const HowToPlayToggle = (): void => setHowToPlayVisibility(false)
-
 	return (
 		<View>
 			<Text style={styles.hint}>{hintMessage()}</Text>
@@ -112,12 +107,6 @@ export default function Game(): JSX.Element {
 					)
 				})}
 			</View>
-			<Portal>
-				<HowToPlay
-					visible={isHowToPlayVisible}
-					HowToPlayToggle={HowToPlayToggle}
-				/>
-			</Portal>
 			{won ? (
 				<View style={styles.newGameContainer}>
 					<Button

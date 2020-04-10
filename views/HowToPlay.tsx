@@ -5,52 +5,43 @@ import { StyleSheet, View } from 'react-native'
 import { Button, Text } from 'react-native-paper'
 
 type Props = {
-	visible: boolean
-	HowToPlayToggle: (val: boolean) => void
+	navigation: any
 }
 
-export default function HowToPlay(props: Props): JSX.Element | null {
-	const { visible } = props
-
-	if (visible) {
-		return (
-			<View style={styles.container}>
-				<View style={styles.howToContainer}>
-					<Text style={styles.howToText}>
-						The computer will select a number randomly between 1 -
-						50.
-					</Text>
-				</View>
-				<View style={styles.howToContainer}>
-					<Text style={styles.howToText}>
-						Try guessing the random number by clicking on the
-						number.
-					</Text>
-				</View>
-				<View style={styles.howToContainer}>
-					<Text style={styles.howToText}>
-						Guess the next number with the help of the hint.
-					</Text>
-				</View>
-				<View style={styles.howToContainer}>
-					<Text style={styles.howToText}>
-						Repeat untill you find the random number.
-					</Text>
-				</View>
-				<View style={styles.btnContainer}>
-					<Button
-						style={styles.btn}
-						mode="contained"
-						uppercase={false}
-						onPress={(): void => props.HowToPlayToggle(false)}>
-						Let&apos;s Play
-					</Button>
-				</View>
+export default function HowToPlay({ navigation }: Props): JSX.Element {
+	return (
+		<View style={styles.container}>
+			<View style={styles.howToContainer}>
+				<Text style={styles.howToText}>
+					The computer will select a number randomly between 1 - 50.
+				</Text>
 			</View>
-		)
-	}
-
-	return null
+			<View style={styles.howToContainer}>
+				<Text style={styles.howToText}>
+					Try guessing the random number by clicking on the number.
+				</Text>
+			</View>
+			<View style={styles.howToContainer}>
+				<Text style={styles.howToText}>
+					Guess the next number with the help of the hint.
+				</Text>
+			</View>
+			<View style={styles.howToContainer}>
+				<Text style={styles.howToText}>
+					Repeat untill you find the random number.
+				</Text>
+			</View>
+			<View style={styles.btnContainer}>
+				<Button
+					style={styles.btn}
+					mode="contained"
+					uppercase={false}
+					onPress={(): void => navigation.replace('Game')}>
+					Let&apos;s Play
+				</Button>
+			</View>
+		</View>
+	)
 }
 
 const styles = StyleSheet.create({

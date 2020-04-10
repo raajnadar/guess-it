@@ -9,6 +9,7 @@ import {
 
 import Developer from '../views/Developer'
 import Game from '../views/Game'
+import HowToPlay from '../views/HowToPlay'
 
 import { Appbar, Menu, IconButton } from 'react-native-paper'
 
@@ -65,7 +66,7 @@ export default function Router(): JSX.Element {
 					)
 				}
 			}}
-			initialRouteName="Game">
+			initialRouteName="HowToPlay">
 			<Stack.Screen
 				name="Game"
 				component={Game}
@@ -74,6 +75,13 @@ export default function Router(): JSX.Element {
 				})}
 			/>
 			<Stack.Screen name="Developer" component={Developer} />
+			<Stack.Screen
+				name="HowToPlay"
+				component={HowToPlay}
+				options={(): StackNavigationOptions => ({
+					headerShown: false
+				})}
+			/>
 		</Stack.Navigator>
 	)
 }
