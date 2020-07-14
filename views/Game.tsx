@@ -92,7 +92,7 @@ export default function Game(): JSX.Element {
 		<View>
 			<Text style={styles.hint}>{hintMessage()}</Text>
 			<View style={styles.container}>
-				{items.map(data => {
+				{items.map((data) => {
 					const { disabled, value } = data
 
 					return (
@@ -126,8 +126,7 @@ export default function Game(): JSX.Element {
 					<Dialog.Title>You won!</Dialog.Title>
 					<Dialog.Content>
 						<Paragraph>
-							The random number is {random}, You guessed in{' '}
-							{tries} tries
+							The random number is {random}, You guessed in {tries} tries
 						</Paragraph>
 					</Dialog.Content>
 					<Dialog.Actions>

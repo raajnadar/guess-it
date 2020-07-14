@@ -10,8 +10,7 @@ export default function Developer(): JSX.Element {
 			<Card style={styles.card}>
 				<Card.Content>
 					<Paragraph style={styles.text}>
-						Guess the number mobile application developed by
-						Rajendran Nadar.
+						Guess the number mobile application developed by Rajendran Nadar.
 					</Paragraph>
 				</Card.Content>
 				<Card.Actions>
@@ -25,9 +24,7 @@ export default function Developer(): JSX.Element {
 			</Card>
 			<Card>
 				<Card.Content>
-					<Paragraph style={styles.text}>
-						Build using React Native
-					</Paragraph>
+					<Paragraph style={styles.text}>Build using React Native</Paragraph>
 				</Card.Content>
 			</Card>
 		</View>

@@ -29,28 +29,18 @@ export default function Router(): JSX.Element {
 					return (
 						<Appbar.Header>
 							{previous ? (
-								<Appbar.BackAction
-									onPress={navigation.goBack}
-								/>
+								<Appbar.BackAction onPress={navigation.goBack} />
 							) : null}
-							<Appbar.Content
-								title={scene.descriptor.options.title}
-							/>
+							<Appbar.Content title={scene.descriptor.options.title} />
 							{!previous ? (
 								<Menu
 									visible={menuVisibility}
-									onDismiss={(): void =>
-										setMenuVisibility(false)
-									}
+									onDismiss={(): void => setMenuVisibility(false)}
 									anchor={
 										<IconButton
 											color={'#fff'}
 											icon="dots-vertical"
-											onPress={(): void =>
-												setMenuVisibility(
-													!menuVisibility
-												)
-											}
+											onPress={(): void => setMenuVisibility(!menuVisibility)}
 										/>
 									}>
 									<Menu.Item
