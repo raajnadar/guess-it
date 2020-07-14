@@ -38,7 +38,7 @@ jobs:
       - attach_workspace:
           at: ~/project
       - run: |
-          yarn tsc
+          yarn typescript
 
 workflows:
   version: 2
