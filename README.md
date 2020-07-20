@@ -1,5 +1,5 @@
 <p align="center">	
-  <img alt="Guess It Snack QR code" width="200" height="200" src="assets/icon.png">	
+  <img alt="Guess It App Icon" width="200" height="200" src="assets/icon.png">	
 </p>
 
 <h1 align="center">Guess It</h1>
