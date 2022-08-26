@@ -1,4 +1,27 @@
 {
-  "name": "guessit",
-  "displayName": "guessit"
+  "expo": {
+    "name": "Guess it",
+    "description": "Guess the number mobile game developed by Rajendran Nadar",
+    "slug": "guess-it",
+    "privacy": "public",
+    "platforms": [
+      "android"
+    ],
+    "githubUrl": "https://github.com/raajnadar/guess-it",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "assets/*"
+    ],
+    "android": {
+      "package": "in.raajnadar.guessit",
+      "versionCode": 1
+    }
+  }
 }
