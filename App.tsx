@@ -19,6 +19,7 @@ const theme = {
 
 export default function App(): JSX.Element {
 	useEffect(() => {
+		StatusBar.setBarStyle('light-content')
 		StatusBar.setBackgroundColor('#640164')
 	}, [])
 
