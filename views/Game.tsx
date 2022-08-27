@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 import { StyleSheet, View } from 'react-native'
 
@@ -15,16 +15,16 @@ type Item = {
 }
 
 export default function Game(): JSX.Element {
-	const [items, setItem] = useState<Array<Item>>([])
-	const [random, setRandom] = useState(0)
-	const [tries, setTries] = useState(0)
-	const [won, setWonStatus] = useState(false)
-	const [guessed, setGuessed] = useState<Array<number>>([])
-	const [value, setValue] = useState('')
+	const [items, setItem] = React.useState<Array<Item>>([])
+	const [random, setRandom] = React.useState(0)
+	const [tries, setTries] = React.useState(0)
+	const [won, setWonStatus] = React.useState(false)
+	const [guessed, setGuessed] = React.useState<Array<number>>([])
+	const [position, setPosition] = React.useState('')
 
-	const [isModalVisible, setModalVisibility] = useState(false)
+	const [isModalVisible, setModalVisibility] = React.useState(false)
 
-	useEffect(() => {
+	React.useEffect(() => {
 		resetData()
 		generateRandom()
 	}, [])
@@ -35,8 +35,8 @@ export default function Game(): JSX.Element {
 	const hintMessage = (): string => {
 		const currentNumber = guessed[guessed.length - 1]
 
-		if (value !== '' && !won) {
-			return `${currentNumber} is ${value} than the random number`
+		if (position !== '' && !won) {
+			return `${currentNumber} is ${position} than the random number`
 		} else if (won) {
 			return `You guessed in ${tries} tries`
 		} else {
@@ -53,12 +53,12 @@ export default function Game(): JSX.Element {
 		temp[number - 1].disabled = true
 
 		if (number > random) {
-			setValue('greater')
+			setPosition('greater')
 			setGuessed(tempGuessedValue)
 			setTries(tempTries)
 			setItem(temp)
 		} else if (number < random) {
-			setValue('lesser')
+			setPosition('lesser')
 			setGuessed(tempGuessedValue)
 			setTries(tempTries)
 			setItem(temp)
@@ -74,7 +74,7 @@ export default function Game(): JSX.Element {
 		generateRandom()
 		resetData()
 		setWonStatus(false)
-		setValue('')
+		setPosition('')
 		setTries(0)
 		setGuessed([])
 	}

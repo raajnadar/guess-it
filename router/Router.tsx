@@ -1,5 +1,4 @@
-/* eslint-disable react/display-name */
-import React, { useState } from 'react'
+import React from 'react'
 
 import {
 	createStackNavigator,
@@ -16,7 +15,7 @@ import { Appbar, Menu, IconButton } from 'react-native-paper'
 const Stack = createStackNavigator()
 
 export default function Router(): JSX.Element {
-	const [menuVisibility, setMenuVisibility] = useState(false)
+	const [menuVisibility, setMenuVisibility] = React.useState(false)
 
 	return (
 		<Stack.Navigator

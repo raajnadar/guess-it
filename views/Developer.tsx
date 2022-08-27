@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { Linking, StyleSheet, View } from 'react-native'
 
 import { Button, Card, Paragraph } from 'react-native-paper'

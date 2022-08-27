@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { StyleSheet, TouchableOpacity } from 'react-native'
 
 import { Text } from 'react-native-paper'
