@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper'
 
@@ -18,7 +18,7 @@ const theme = {
 }
 
 export default function App(): JSX.Element {
-	useEffect(() => {
+	React.useEffect(() => {
 		StatusBar.setBarStyle('light-content')
 		StatusBar.setBackgroundColor('#640164')
 	}, [])
