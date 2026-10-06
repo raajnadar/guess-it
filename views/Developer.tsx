@@ -1,20 +1,24 @@
 import type { JSX } from 'react'
-import { Linking, StyleSheet, View } from 'react-native'
+import { Linking, StyleSheet } from 'react-native'
 
-import { Button, Card, Paragraph } from 'react-native-paper'
+import { Button } from '@rootnative/components/button'
+import { Card } from '@rootnative/components/card'
+import { Layout } from '@rootnative/components/layout'
+import { Typography } from '@rootnative/components/typography'
 
 export default function Developer(): JSX.Element {
 	return (
-		<View style={styles.container}>
-			<Card style={styles.card}>
+		<Layout style={styles.container}>
+			<Card>
 				<Card.Content>
-					<Paragraph style={styles.text}>
+					<Typography variant="bodyLarge">
 						Guess the number mobile application developed by Rajendran Nadar.
-					</Paragraph>
+					</Typography>
 				</Card.Content>
 				<Card.Actions>
 					<Button
-						onPress={(): Promise<Linking> =>
+						variant="text"
+						onPress={(): Promise<void> =>
 							Linking.openURL('https://raajnadar.in')
 						}>
 						View Portfolio
@@ -23,21 +27,16 @@ export default function Developer(): JSX.Element {
 			</Card>
 			<Card>
 				<Card.Content>
-					<Paragraph style={styles.text}>Build using React Native</Paragraph>
+					<Typography variant="bodyLarge">Build using React Native</Typography>
 				</Card.Content>
 			</Card>
-		</View>
+		</Layout>
 	)
 }
 
 const styles = StyleSheet.create({
 	container: {
-		padding: 10
-	},
-	card: {
-		marginBottom: 10
-	},
-	text: {
-		fontSize: 16
+		padding: 10,
+		gap: 10
 	}
 })

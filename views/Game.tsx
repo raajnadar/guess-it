@@ -2,7 +2,11 @@ import React, { JSX } from 'react'
 
 import { StyleSheet, View } from 'react-native'
 
-import { Button, Dialog, Paragraph, Portal, Text } from 'react-native-paper'
+import { Button } from '@rootnative/components/button'
+import { Dialog } from '@rootnative/components/dialog'
+import { Layout } from '@rootnative/components/layout'
+import { Typography } from '@rootnative/components/typography'
+import { useTheme } from '@rootnative/core'
 
 import NumberTile from '../components/NumberTile'
 
@@ -15,6 +19,7 @@ type Item = {
 }
 
 export default function Game(): JSX.Element {
+	const theme = useTheme()
 	const [items, setItem] = React.useState<Array<Item>>([])
 	const [random, setRandom] = React.useState(0)
 	const [tries, setTries] = React.useState(0)
@@ -89,8 +94,13 @@ export default function Game(): JSX.Element {
 	}
 
 	return (
-		<View>
-			<Text style={styles.hint}>{hintMessage()}</Text>
+		<Layout>
+			<Typography
+				variant="titleLarge"
+				color={theme.colors.error}
+				style={styles.hint}>
+				{hintMessage()}
+			</Typography>
 			<View style={styles.container}>
 				{items.map((data) => {
 					const { disabled, value } = data
@@ -109,34 +119,28 @@ export default function Game(): JSX.Element {
 			</View>
 			{won ? (
 				<View style={styles.newGameContainer}>
-					<Button
-						compact
-						mode="contained"
-						onPress={newGame}
-						style={styles.newGameBtn}>
+					<Button size="medium" onPress={newGame} style={styles.newGameBtn}>
 						New Game
 					</Button>
 				</View>
 			) : null}
-			<Portal>
-				<Dialog
-					dismissable={false}
-					visible={isModalVisible}
-					onDismiss={(): void => setModalVisibility(false)}>
-					<Dialog.Title>You won!</Dialog.Title>
-					<Dialog.Content>
-						<Paragraph>
-							The random number is {random}, You guessed in {tries} tries
-						</Paragraph>
-					</Dialog.Content>
-					<Dialog.Actions>
-						<Button onPress={(): void => setModalVisibility(false)}>
-							Exit
-						</Button>
-					</Dialog.Actions>
-				</Dialog>
-			</Portal>
-		</View>
+			<Dialog
+				dismissable={false}
+				visible={isModalVisible}
+				onDismiss={(): void => setModalVisibility(false)}>
+				<Dialog.Title>You won!</Dialog.Title>
+				<Dialog.Content>
+					{`The random number is ${random}, You guessed in ${tries} tries`}
+				</Dialog.Content>
+				<Dialog.Actions>
+					<Button
+						variant="text"
+						onPress={(): void => setModalVisibility(false)}>
+						Exit
+					</Button>
+				</Dialog.Actions>
+			</Dialog>
+		</Layout>
 	)
 }
 
@@ -146,16 +150,15 @@ const styles = StyleSheet.create({
 		flexWrap: 'wrap'
 	},
 	hint: {
-		fontSize: 20,
 		padding: 10,
-		textAlign: 'center',
-		color: '#FF0000'
+		textAlign: 'center'
 	},
 	newGameContainer: {
-		alignItems: 'center'
-	},
-	newGameBtn: {
+		alignSelf: 'center',
 		margin: 10,
 		width: '50%'
+	},
+	newGameBtn: {
+		alignSelf: 'stretch'
 	}
 })

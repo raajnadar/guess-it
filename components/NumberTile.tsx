@@ -1,7 +1,7 @@
 import type { JSX } from 'react'
 import { StyleSheet, TouchableOpacity } from 'react-native'
 
-import { Text } from 'react-native-paper'
+import { Typography } from '@rootnative/components/typography'
 
 type Props = {
 	index: number
@@ -34,7 +34,7 @@ export default function NumberTile(props: Props): JSX.Element {
 			onPress={!(disabled || won) ? onPress : undefined}
 			activeOpacity={!(disabled || won) ? 0.2 : 1}
 			style={[styles.container, { backgroundColor: indexColor }]}>
-			<Text style={styles.text}>{index}</Text>
+			<Typography variant="titleLarge">{index}</Typography>
 		</TouchableOpacity>
 	)
 }
@@ -45,8 +45,5 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		width: '20%'
-	},
-	text: {
-		fontSize: 20
 	}
 })

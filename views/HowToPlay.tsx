@@ -1,7 +1,9 @@
 import type { JSX } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StatusBar, StyleSheet, View } from 'react-native'
 
-import { Button, Text } from 'react-native-paper'
+import { Button } from '@rootnative/components/button'
+import { Layout } from '@rootnative/components/layout'
+import { Typography } from '@rootnative/components/typography'
 
 type Props = {
 	navigation: any
@@ -9,54 +11,46 @@ type Props = {
 
 export default function HowToPlay({ navigation }: Props): JSX.Element {
 	return (
-		<View style={styles.container}>
+		<Layout edges={['top', 'bottom']} style={styles.container}>
+			<StatusBar barStyle="dark-content" />
 			<View style={styles.howToContainer}>
-				<Text style={styles.howToText}>
+				<Typography variant="bodyLarge" style={styles.howToText}>
 					The computer will select a number randomly between 1 - 50.
-				</Text>
+				</Typography>
 			</View>
 			<View style={styles.howToContainer}>
-				<Text style={styles.howToText}>
+				<Typography variant="bodyLarge" style={styles.howToText}>
 					Try guessing the random number by clicking on the number.
-				</Text>
+				</Typography>
 			</View>
 			<View style={styles.howToContainer}>
-				<Text style={styles.howToText}>
+				<Typography variant="bodyLarge" style={styles.howToText}>
 					Guess the next number with the help of the hint.
-				</Text>
+				</Typography>
 			</View>
 			<View style={styles.howToContainer}>
-				<Text style={styles.howToText}>
+				<Typography variant="bodyLarge" style={styles.howToText}>
 					Repeat untill you find the random number.
-				</Text>
+				</Typography>
 			</View>
-			<View style={styles.btnContainer}>
-				<Button
-					style={styles.btn}
-					mode="contained"
-					uppercase={false}
-					onPress={(): void => navigation.replace('Game')}>
-					Let&apos;s Play
-				</Button>
-			</View>
-		</View>
+			<Button
+				size="medium"
+				shape="square"
+				style={styles.btn}
+				onPress={(): void => navigation.replace('Game')}>
+				Let&apos;s Play
+			</Button>
+		</Layout>
 	)
 }
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
 		justifyContent: 'space-between',
-		padding: 40,
-		backgroundColor: '#fff'
-	},
-	btnContainer: {
-		display: 'flex',
-		flexDirection: 'row'
+		padding: 40
 	},
 	btn: {
-		flex: 1,
-		borderRadius: 0
+		alignSelf: 'stretch'
 	},
 	howToContainer: {
 		flexDirection: 'row',
@@ -64,6 +58,7 @@ const styles = StyleSheet.create({
 		flex: 1
 	},
 	howToText: {
+		flex: 1,
 		fontSize: 18,
 		textAlign: 'center'
 	}
