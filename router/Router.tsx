@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { JSX } from 'react'
 
 import {
 	createStackNavigator,
@@ -21,23 +21,21 @@ export default function Router(): JSX.Element {
 		<Stack.Navigator
 			screenOptions={{
 				header: ({
-					scene,
-					previous,
+					options,
+					back,
 					navigation
 				}: StackHeaderProps): JSX.Element => {
 					return (
 						<Appbar.Header>
-							{previous ? (
-								<Appbar.BackAction onPress={navigation.goBack} />
-							) : null}
-							<Appbar.Content title={scene.descriptor.options.title} />
-							{!previous ? (
+							{back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
+							<Appbar.Content title={options.title} />
+							{!back ? (
 								<Menu
 									visible={menuVisibility}
 									onDismiss={(): void => setMenuVisibility(false)}
 									anchor={
 										<IconButton
-											color={'#fff'}
+											iconColor={'#fff'}
 											icon="dots-vertical"
 											onPress={(): void => setMenuVisibility(!menuVisibility)}
 										/>

@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { JSX } from 'react'
 
-import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper'
+import { MD2LightTheme, Provider as PaperProvider } from 'react-native-paper'
 
 import { StatusBar } from 'react-native'
 
@@ -9,9 +9,9 @@ import { NavigationContainer } from '@react-navigation/native'
 import Router from './router/Router'
 
 const theme = {
-	...DefaultTheme,
+	...MD2LightTheme,
 	colors: {
-		...DefaultTheme.colors,
+		...MD2LightTheme.colors,
 		primary: '#800080',
 		accent: 'yellow'
 	}
