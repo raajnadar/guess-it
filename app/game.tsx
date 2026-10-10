@@ -7,6 +7,7 @@ import { Dialog } from '@rootnative/components/dialog'
 import { Layout } from '@rootnative/components/layout'
 import { Typography } from '@rootnative/components/typography'
 import { useTheme } from '@rootnative/core'
+import { router } from 'expo-router'
 
 import NumberTile from '../components/NumberTile'
 
@@ -88,6 +89,9 @@ export default function Game(): JSX.Element {
 					)}.`}
 				</Dialog.Content>
 				<Dialog.Actions>
+					<Button variant="text" onPress={(): void => router.dismissTo('/')}>
+						Home
+					</Button>
 					<Button variant="text" onPress={newGame}>
 						Play again
 					</Button>

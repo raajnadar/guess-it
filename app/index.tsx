@@ -1,62 +1,80 @@
 import type { JSX } from 'react'
-import { StatusBar, StyleSheet, View } from 'react-native'
+import { Image, StatusBar, StyleSheet, View } from 'react-native'
 
 import { Button } from '@rootnative/components/button'
 import { Layout } from '@rootnative/components/layout'
 import { Typography } from '@rootnative/components/typography'
+import { useTheme } from '@rootnative/core'
 import { router } from 'expo-router'
 
-export default function HowToPlay(): JSX.Element {
+export default function Home(): JSX.Element {
+	const theme = useTheme()
+
 	return (
 		<Layout edges={['top', 'bottom']} style={styles.container}>
 			<StatusBar barStyle="dark-content" />
-			<View style={styles.howToContainer}>
-				<Typography variant="bodyLarge" style={styles.howToText}>
-					The computer will select a number randomly between 1 and 30.
+			<View style={styles.hero}>
+				<Image
+					source={require('../assets/icon.png')}
+					style={styles.icon}
+					accessibilityIgnoresInvertColors
+				/>
+				<Typography variant="displaySmall">Guess It</Typography>
+				<Typography
+					variant="bodyLarge"
+					color={theme.colors.onSurfaceVariant}
+					style={styles.tagline}>
+					Find the hidden number with the fewest tries.
 				</Typography>
 			</View>
-			<View style={styles.howToContainer}>
-				<Typography variant="bodyLarge" style={styles.howToText}>
-					Try guessing the random number by clicking on the number.
-				</Typography>
+			<View style={styles.actions}>
+				<Button
+					size="medium"
+					style={styles.button}
+					onPress={(): void => router.push('/game')}>
+					Play
+				</Button>
+				<Button
+					size="medium"
+					variant="tonal"
+					style={styles.button}
+					onPress={(): void => router.push('/how-to-play')}>
+					How to play
+				</Button>
+				<Button
+					size="medium"
+					variant="text"
+					style={styles.button}
+					onPress={(): void => router.push('/about')}>
+					About
+				</Button>
 			</View>
-			<View style={styles.howToContainer}>
-				<Typography variant="bodyLarge" style={styles.howToText}>
-					Guess the next number with the help of the hint.
-				</Typography>
-			</View>
-			<View style={styles.howToContainer}>
-				<Typography variant="bodyLarge" style={styles.howToText}>
-					Repeat until you find the random number.
-				</Typography>
-			</View>
-			<Button
-				size="medium"
-				shape="square"
-				style={styles.btn}
-				onPress={(): void => router.replace('/game')}>
-				Let&apos;s Play
-			</Button>
 		</Layout>
 	)
 }
 
 const styles = StyleSheet.create({
 	container: {
-		justifyContent: 'space-between',
-		padding: 40
+		padding: 24
 	},
-	btn: {
-		alignSelf: 'stretch'
-	},
-	howToContainer: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		flex: 1
-	},
-	howToText: {
+	hero: {
 		flex: 1,
-		fontSize: 18,
+		alignItems: 'center',
+		justifyContent: 'center',
+		gap: 16
+	},
+	icon: {
+		width: 128,
+		height: 128,
+		borderRadius: 28
+	},
+	tagline: {
 		textAlign: 'center'
+	},
+	actions: {
+		gap: 12
+	},
+	button: {
+		alignSelf: 'stretch'
 	}
 })

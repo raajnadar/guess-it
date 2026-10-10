@@ -46,6 +46,9 @@
 	},
 	"eslintConfig": {
 		"root": true,
+		"ignorePatterns": [
+			"expo-env.d.ts"
+		],
 		"extends": "@react-native-community",
 		"plugins": [
 			"react",

@@ -6,7 +6,7 @@ import { Card } from '@rootnative/components/card'
 import { Layout } from '@rootnative/components/layout'
 import { Typography } from '@rootnative/components/typography'
 
-export default function Developer(): JSX.Element {
+export default function About(): JSX.Element {
 	return (
 		<Layout style={styles.container}>
 			<Card>
@@ -27,7 +27,7 @@ export default function Developer(): JSX.Element {
 			</Card>
 			<Card>
 				<Card.Content>
-					<Typography variant="bodyLarge">Build using React Native</Typography>
+					<Typography variant="bodyLarge">Built with React Native</Typography>
 				</Card.Content>
 			</Card>
 		</Layout>
