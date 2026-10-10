@@ -7,27 +7,41 @@ import { Dialog } from '@rootnative/components/dialog'
 import { Layout } from '@rootnative/components/layout'
 import { Typography } from '@rootnative/components/typography'
 import { useTheme } from '@rootnative/core'
-import { router } from 'expo-router'
+import { Redirect, router, Stack, useLocalSearchParams } from 'expo-router'
 
-import NumberTile, { TileStatus } from '../components/NumberTile'
+import NumberTile, { TileStatus } from '../../components/NumberTile'
+import { findLevel, Level, min } from '../../game/levels'
 
-const min = 1
-const max = 30
-const columns = 5
-
-const numbers = Array.from({ length: max - min + 1 }, (_, i) => min + i)
-
-const generateRandom = (): number =>
+const generateRandom = (max: number): number =>
 	Math.floor(Math.random() * (max - min + 1) + min)
 
 const formatTries = (tries: number): string =>
 	`${tries} ${tries === 1 ? 'try' : 'tries'}`
 
-export default function Game(): JSX.Element {
+export default function GameScreen(): JSX.Element {
+	const params = useLocalSearchParams<{ level: string }>()
+	const level = findLevel(params.level)
+
+	if (!level) {
+		return <Redirect href="/" />
+	}
+
+	return <Game level={level} />
+}
+
+function Game({ level }: { level: Level }): JSX.Element {
+	const { label, max, columns } = level
 	const theme = useTheme()
-	const [random, setRandom] = React.useState(generateRandom)
+	const [random, setRandom] = React.useState(() => generateRandom(max))
 	const [guessed, setGuessed] = React.useState<Array<number>>([])
 
+	const numbers = Array.from({ length: max - min + 1 }, (_, i) => min + i)
+	// Use explicit rows, not flexWrap. In floating point, ten cells of '10%'
+	// are a little wider than the row, so flexWrap moves one cell down.
+	const rows = Array.from(
+		{ length: Math.ceil(numbers.length / columns) },
+		(_, r) => numbers.slice(r * columns, (r + 1) * columns)
+	)
 	const tries = guessed.length
 	const currentNumber = guessed[tries - 1]
 	const won = currentNumber === random
@@ -82,7 +96,7 @@ export default function Game(): JSX.Element {
 		setGuessed((previous) => [...previous, number])
 
 	const newGame = (): void => {
-		setRandom(generateRandom())
+		setRandom(generateRandom(max))
 		setGuessed([])
 	}
 
@@ -90,6 +104,7 @@ export default function Game(): JSX.Element {
 
 	return (
 		<Layout>
+			<Stack.Screen options={{ title: label }} />
 			<View style={styles.hint}>
 				<Typography variant="titleLarge" color={color} style={styles.hintText}>
 					{message}
@@ -102,15 +117,19 @@ export default function Game(): JSX.Element {
 				</Typography>
 			</View>
 			<ScrollView contentContainerStyle={styles.grid}>
-				{numbers.map((value) => (
-					<NumberTile
-						key={value}
-						value={value}
-						columns={columns}
-						status={tileStatus(value)}
-						disabled={won || guessed.includes(value)}
-						onPress={(): void => guessValue(value)}
-					/>
+				{rows.map((row) => (
+					<View key={row[0]} style={styles.row}>
+						{row.map((value) => (
+							<NumberTile
+								key={value}
+								value={value}
+								columns={columns}
+								status={tileStatus(value)}
+								disabled={won || guessed.includes(value)}
+								onPress={(): void => guessValue(value)}
+							/>
+						))}
+					</View>
 				))}
 			</ScrollView>
 			<Dialog dismissable={false} visible={won} onDismiss={newGame}>
@@ -135,10 +154,11 @@ export default function Game(): JSX.Element {
 
 const styles = StyleSheet.create({
 	grid: {
-		flexDirection: 'row',
-		flexWrap: 'wrap',
 		paddingHorizontal: 8,
 		paddingBottom: 8
+	},
+	row: {
+		flexDirection: 'row'
 	},
 	hint: {
 		padding: 10,

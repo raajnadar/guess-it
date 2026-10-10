@@ -72,9 +72,9 @@ export default function NumberTile({
 				{status === 'correct' ? (
 					<Icon
 						source="check"
-						size={compact ? 12 : 16}
+						size={compact ? 10 : 16}
 						color={colors.content}
-						style={styles.check}
+						style={[styles.check, compact && styles.compactCheck]}
 					/>
 				) : null}
 			</Pressable>
@@ -102,5 +102,9 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		top: 4,
 		right: 4
+	},
+	compactCheck: {
+		top: 2,
+		right: 2
 	}
 })

@@ -25,7 +25,7 @@ export default function RootLayout(): JSX.Element {
 						)
 					}}>
 					<Stack.Screen name="index" options={{ headerShown: false }} />
-					<Stack.Screen name="game" options={{ title: 'Guess It' }} />
+					<Stack.Screen name="game/[level]" options={{ title: 'Guess It' }} />
 					<Stack.Screen name="how-to-play" options={{ title: 'How to play' }} />
 					<Stack.Screen name="about" options={{ title: 'About' }} />
 				</Stack>

@@ -4,29 +4,29 @@ import { StyleSheet, View } from 'react-native'
 import { Layout } from '@rootnative/components/layout'
 import { Typography } from '@rootnative/components/typography'
 
+import { levels, min } from '../game/levels'
+
+const ranges = levels
+	.map((level) => `${level.label} ${min} to ${level.max}`)
+	.join(', ')
+
+const rules = [
+	`Select a level. The computer selects a random number in the range of that level: ${ranges}.`,
+	'Tap a number to guess it.',
+	'The hint tells you to go higher or lower. It also shows the range that is left.',
+	'Repeat until you find the random number. Use as few tries as you can.'
+]
+
 export default function HowToPlay(): JSX.Element {
 	return (
 		<Layout style={styles.container}>
-			<View style={styles.howToContainer}>
-				<Typography variant="bodyLarge" style={styles.howToText}>
-					The computer will select a number randomly between 1 and 30.
-				</Typography>
-			</View>
-			<View style={styles.howToContainer}>
-				<Typography variant="bodyLarge" style={styles.howToText}>
-					Try guessing the random number by clicking on the number.
-				</Typography>
-			</View>
-			<View style={styles.howToContainer}>
-				<Typography variant="bodyLarge" style={styles.howToText}>
-					Guess the next number with the help of the hint.
-				</Typography>
-			</View>
-			<View style={styles.howToContainer}>
-				<Typography variant="bodyLarge" style={styles.howToText}>
-					Repeat until you find the random number.
-				</Typography>
-			</View>
+			{rules.map((rule) => (
+				<View key={rule} style={styles.howToContainer}>
+					<Typography variant="bodyLarge" style={styles.howToText}>
+						{rule}
+					</Typography>
+				</View>
+			))}
 		</Layout>
 	)
 }
