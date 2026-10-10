@@ -4,12 +4,9 @@ import { StatusBar, StyleSheet, View } from 'react-native'
 import { Button } from '@rootnative/components/button'
 import { Layout } from '@rootnative/components/layout'
 import { Typography } from '@rootnative/components/typography'
+import { router } from 'expo-router'
 
-type Props = {
-	navigation: any
-}
-
-export default function HowToPlay({ navigation }: Props): JSX.Element {
+export default function HowToPlay(): JSX.Element {
 	return (
 		<Layout edges={['top', 'bottom']} style={styles.container}>
 			<StatusBar barStyle="dark-content" />
@@ -37,7 +34,7 @@ export default function HowToPlay({ navigation }: Props): JSX.Element {
 				size="medium"
 				shape="square"
 				style={styles.btn}
-				onPress={(): void => navigation.replace('Game')}>
+				onPress={(): void => router.replace('/game')}>
 				Let&apos;s Play
 			</Button>
 		</Layout>

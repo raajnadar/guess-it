@@ -1,28 +1,18 @@
 import type { JSX } from 'react'
 import { StatusBar } from 'react-native'
 
-import {
-	createStackNavigator,
-	StackHeaderProps,
-	StackNavigationOptions
-} from '@react-navigation/stack'
 import { AppBar } from '@rootnative/components/appbar'
 import { IconButton } from '@rootnative/components/icon-button'
 import { Menu } from '@rootnative/components/menu'
 import { useTheme } from '@rootnative/core'
+import { NativeStackHeaderProps, router } from 'expo-router'
 
-import Developer from '../views/Developer'
-import Game from '../views/Game'
-import HowToPlay from '../views/HowToPlay'
-
-const Stack = createStackNavigator()
-
-function Header({
+export default function Header({
 	options,
 	route,
 	back,
 	navigation
-}: StackHeaderProps): JSX.Element {
+}: NativeStackHeaderProps): JSX.Element {
 	const theme = useTheme()
 
 	return (
@@ -50,38 +40,12 @@ function Header({
 							}>
 							<Menu.Item
 								label="Developer"
-								onPress={(): void => navigation.push('Developer')}
+								onPress={(): void => router.push('/developer')}
 							/>
 						</Menu>
 					)
 				}
 			/>
 		</>
-	)
-}
-
-export default function Router(): JSX.Element {
-	return (
-		<Stack.Navigator
-			screenOptions={{
-				header: (props: StackHeaderProps): JSX.Element => <Header {...props} />
-			}}
-			initialRouteName="HowToPlay">
-			<Stack.Screen
-				name="Game"
-				component={Game}
-				options={(): StackNavigationOptions => ({
-					title: 'Guess It'
-				})}
-			/>
-			<Stack.Screen name="Developer" component={Developer} />
-			<Stack.Screen
-				name="HowToPlay"
-				component={HowToPlay}
-				options={(): StackNavigationOptions => ({
-					headerShown: false
-				})}
-			/>
-		</Stack.Navigator>
 	)
 }

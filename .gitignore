@@ -72,3 +72,6 @@ web-build/
 dist/
 
 # @end expo-cli
+
+# Expo Router typed routes
+expo-env.d.ts
