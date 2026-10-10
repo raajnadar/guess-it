@@ -15,7 +15,7 @@ export default function HowToPlay({ navigation }: Props): JSX.Element {
 			<StatusBar barStyle="dark-content" />
 			<View style={styles.howToContainer}>
 				<Typography variant="bodyLarge" style={styles.howToText}>
-					The computer will select a number randomly between 1 - 50.
+					The computer will select a number randomly between 1 and 30.
 				</Typography>
 			</View>
 			<View style={styles.howToContainer}>
@@ -30,7 +30,7 @@ export default function HowToPlay({ navigation }: Props): JSX.Element {
 			</View>
 			<View style={styles.howToContainer}>
 				<Typography variant="bodyLarge" style={styles.howToText}>
-					Repeat untill you find the random number.
+					Repeat until you find the random number.
 				</Typography>
 			</View>
 			<Button

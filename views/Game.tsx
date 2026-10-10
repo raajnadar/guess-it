@@ -13,130 +13,83 @@ import NumberTile from '../components/NumberTile'
 const min = 1
 const max = 30
 
-type Item = {
-	value: number
-	disabled: boolean
-}
+const numbers = Array.from({ length: max - min + 1 }, (_, i) => min + i)
+
+const generateRandom = (): number =>
+	Math.floor(Math.random() * (max - min + 1) + min)
+
+const formatTries = (tries: number): string =>
+	`${tries} ${tries === 1 ? 'try' : 'tries'}`
 
 export default function Game(): JSX.Element {
 	const theme = useTheme()
-	const [items, setItem] = React.useState<Array<Item>>([])
-	const [random, setRandom] = React.useState(0)
-	const [tries, setTries] = React.useState(0)
-	const [won, setWonStatus] = React.useState(false)
+	const [random, setRandom] = React.useState(generateRandom)
 	const [guessed, setGuessed] = React.useState<Array<number>>([])
-	const [position, setPosition] = React.useState('')
 
-	const [isModalVisible, setModalVisibility] = React.useState(false)
+	const tries = guessed.length
+	const currentNumber = guessed[tries - 1]
+	const won = currentNumber === random
 
-	React.useEffect(() => {
-		resetData()
-		generateRandom()
-	}, [])
+	const hint = (): { message: string; color: string } => {
+		if (won) {
+			return {
+				message: `You guessed in ${formatTries(tries)}`,
+				color: theme.colors.primary
+			}
+		}
 
-	const generateRandom = (): void =>
-		setRandom(Math.floor(Math.random() * (max - min + 1) + min))
+		if (currentNumber === undefined) {
+			return {
+				message: 'Click on a number to get a hint',
+				color: theme.colors.onSurfaceVariant
+			}
+		}
 
-	const hintMessage = (): string => {
-		const currentNumber = guessed[guessed.length - 1]
+		const position = currentNumber > random ? 'greater' : 'lesser'
 
-		if (position !== '' && !won) {
-			return `${currentNumber} is ${position} than the random number`
-		} else if (won) {
-			return `You guessed in ${tries} tries`
-		} else {
-			return 'Click on a number to get a hint'
+		return {
+			message: `${currentNumber} is ${position} than the random number`,
+			color: theme.colors.error
 		}
 	}
 
-	const guessValue = (number: number): void => {
-		const temp = items
-		const tempTries = tries + 1
-		const tempGuessedValue = guessed
-
-		tempGuessedValue.push(number)
-		temp[number - 1].disabled = true
-
-		if (number > random) {
-			setPosition('greater')
-			setGuessed(tempGuessedValue)
-			setTries(tempTries)
-			setItem(temp)
-		} else if (number < random) {
-			setPosition('lesser')
-			setGuessed(tempGuessedValue)
-			setTries(tempTries)
-			setItem(temp)
-		} else {
-			setWonStatus(true)
-			setModalVisibility(true)
-			setTries(tempTries)
-		}
-	}
+	const guessValue = (number: number): void =>
+		setGuessed((previous) => [...previous, number])
 
 	const newGame = (): void => {
-		// Clear all the data
-		generateRandom()
-		resetData()
-		setWonStatus(false)
-		setPosition('')
-		setTries(0)
+		setRandom(generateRandom())
 		setGuessed([])
 	}
 
-	const resetData = (): void => {
-		const temp = []
-
-		for (let i = 1; i <= max; i++) {
-			temp.push({ value: i, disabled: false })
-		}
-		setItem(temp)
-	}
+	const { message, color } = hint()
 
 	return (
 		<Layout>
-			<Typography
-				variant="titleLarge"
-				color={theme.colors.error}
-				style={styles.hint}>
-				{hintMessage()}
+			<Typography variant="titleLarge" color={color} style={styles.hint}>
+				{message}
 			</Typography>
 			<View style={styles.container}>
-				{items.map((data) => {
-					const { disabled, value } = data
-
-					return (
-						<NumberTile
-							won={won}
-							key={value}
-							index={value}
-							random={random}
-							disabled={disabled}
-							onPress={(): void => guessValue(value)}
-						/>
-					)
-				})}
+				{numbers.map((value) => (
+					<NumberTile
+						won={won}
+						key={value}
+						index={value}
+						random={random}
+						disabled={guessed.includes(value)}
+						onPress={(): void => guessValue(value)}
+					/>
+				))}
 			</View>
-			{won ? (
-				<View style={styles.newGameContainer}>
-					<Button size="medium" onPress={newGame} style={styles.newGameBtn}>
-						New Game
-					</Button>
-				</View>
-			) : null}
-			<Dialog
-				dismissable={false}
-				visible={isModalVisible}
-				onDismiss={(): void => setModalVisibility(false)}>
+			<Dialog dismissable={false} visible={won} onDismiss={newGame}>
 				<Dialog.Title>You won!</Dialog.Title>
 				<Dialog.Content>
-					{`The random number is ${random}, You guessed in ${tries} tries`}
+					{`The random number is ${random}. You guessed in ${formatTries(
+						tries
+					)}.`}
 				</Dialog.Content>
 				<Dialog.Actions>
-					<Button
-						variant="text"
-						onPress={(): void => setModalVisibility(false)}>
-						Exit
+					<Button variant="text" onPress={newGame}>
+						Play again
 					</Button>
 				</Dialog.Actions>
 			</Dialog>
@@ -152,13 +105,5 @@ const styles = StyleSheet.create({
 	hint: {
 		padding: 10,
 		textAlign: 'center'
-	},
-	newGameContainer: {
-		alignSelf: 'center',
-		margin: 10,
-		width: '50%'
-	},
-	newGameBtn: {
-		alignSelf: 'stretch'
 	}
 })
