@@ -8,7 +8,7 @@
 		"ios": "expo start --ios",
 		"start": "expo start",
 		"test": "jest",
-		"lint": "eslint **/*{.ts,.tsx}",
+		"lint": "eslint . --ext .ts,.tsx",
 		"typescript": "yarn tsc --noEmit"
 	},
 	"dependencies": {
