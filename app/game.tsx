@@ -30,26 +30,41 @@ export default function Game(): JSX.Element {
 	const tries = guessed.length
 	const currentNumber = guessed[tries - 1]
 	const won = currentNumber === random
+	const low = Math.max(
+		min,
+		...guessed.filter((n) => n < random).map((n) => n + 1)
+	)
+	const high = Math.min(
+		max,
+		...guessed.filter((n) => n > random).map((n) => n - 1)
+	)
 
-	const hint = (): { message: string; color: string } => {
+	const hint = (): { message: string; detail: string; color: string } => {
 		if (won) {
 			return {
 				message: `You guessed in ${formatTries(tries)}`,
+				detail: `The random number is ${random}`,
 				color: theme.colors.primary
 			}
 		}
 
 		if (currentNumber === undefined) {
 			return {
-				message: 'Click on a number to get a hint',
+				message: 'Tap a number to start',
+				detail: `Between ${min} and ${max}`,
 				color: theme.colors.onSurfaceVariant
 			}
 		}
 
-		const position = currentNumber > random ? 'greater' : 'lesser'
+		const range =
+			low === high ? `Only ${low} is left` : `Between ${low} and ${high}`
 
 		return {
-			message: `${currentNumber} is ${position} than the random number`,
+			message:
+				currentNumber > random
+					? `Go lower than ${currentNumber}`
+					: `Go higher than ${currentNumber}`,
+			detail: `${range} · ${formatTries(tries)}`,
 			color: theme.colors.error
 		}
 	}
@@ -62,13 +77,21 @@ export default function Game(): JSX.Element {
 		setGuessed([])
 	}
 
-	const { message, color } = hint()
+	const { message, detail, color } = hint()
 
 	return (
 		<Layout>
-			<Typography variant="titleLarge" color={color} style={styles.hint}>
-				{message}
-			</Typography>
+			<View style={styles.hint}>
+				<Typography variant="titleLarge" color={color} style={styles.hintText}>
+					{message}
+				</Typography>
+				<Typography
+					variant="bodyMedium"
+					color={theme.colors.onSurfaceVariant}
+					style={styles.hintText}>
+					{detail}
+				</Typography>
+			</View>
 			<View style={styles.container}>
 				{numbers.map((value) => (
 					<NumberTile
@@ -108,6 +131,9 @@ const styles = StyleSheet.create({
 	},
 	hint: {
 		padding: 10,
+		gap: 4
+	},
+	hintText: {
 		textAlign: 'center'
 	}
 })
