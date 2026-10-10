@@ -1,6 +1,6 @@
 import React, { JSX } from 'react'
 
-import { StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 
 import { Button } from '@rootnative/components/button'
 import { Dialog } from '@rootnative/components/dialog'
@@ -9,10 +9,11 @@ import { Typography } from '@rootnative/components/typography'
 import { useTheme } from '@rootnative/core'
 import { router } from 'expo-router'
 
-import NumberTile from '../components/NumberTile'
+import NumberTile, { TileStatus } from '../components/NumberTile'
 
 const min = 1
 const max = 30
+const columns = 5
 
 const numbers = Array.from({ length: max - min + 1 }, (_, i) => min + i)
 
@@ -69,6 +70,14 @@ export default function Game(): JSX.Element {
 		}
 	}
 
+	const tileStatus = (value: number): TileStatus => {
+		if (!guessed.includes(value)) {
+			return 'open'
+		}
+
+		return value === random ? 'correct' : 'wrong'
+	}
+
 	const guessValue = (number: number): void =>
 		setGuessed((previous) => [...previous, number])
 
@@ -92,18 +101,18 @@ export default function Game(): JSX.Element {
 					{detail}
 				</Typography>
 			</View>
-			<View style={styles.container}>
+			<ScrollView contentContainerStyle={styles.grid}>
 				{numbers.map((value) => (
 					<NumberTile
-						won={won}
 						key={value}
-						index={value}
-						random={random}
-						disabled={guessed.includes(value)}
+						value={value}
+						columns={columns}
+						status={tileStatus(value)}
+						disabled={won || guessed.includes(value)}
 						onPress={(): void => guessValue(value)}
 					/>
 				))}
-			</View>
+			</ScrollView>
 			<Dialog dismissable={false} visible={won} onDismiss={newGame}>
 				<Dialog.Title>You won!</Dialog.Title>
 				<Dialog.Content>
@@ -125,9 +134,11 @@ export default function Game(): JSX.Element {
 }
 
 const styles = StyleSheet.create({
-	container: {
+	grid: {
 		flexDirection: 'row',
-		flexWrap: 'wrap'
+		flexWrap: 'wrap',
+		paddingHorizontal: 8,
+		paddingBottom: 8
 	},
 	hint: {
 		padding: 10,

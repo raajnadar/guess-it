@@ -1,49 +1,106 @@
 import type { JSX } from 'react'
-import { StyleSheet, TouchableOpacity } from 'react-native'
+import { Pressable, StyleSheet, View } from 'react-native'
 
+import { Icon } from '@rootnative/components/icon'
 import { Typography } from '@rootnative/components/typography'
+import { useTheme } from '@rootnative/core'
+
+export type TileStatus = 'open' | 'wrong' | 'correct'
 
 type Props = {
-	index: number
-	onPress: () => void | undefined
+	value: number
+	status: TileStatus
+	columns: number
 	disabled: boolean
-	random: number
-	won: boolean
+	onPress: () => void
 }
 
-export default function NumberTile(props: Props): JSX.Element {
-	const { index, onPress, disabled, random, won } = props
-	let indexColor = '#551A8B'
+const statusLabels: Record<TileStatus, string> = {
+	open: '',
+	wrong: ', wrong',
+	correct: ', correct'
+}
 
-	if (index % 2 === 0) {
-		indexColor = '#ccbadc'
-	} else {
-		indexColor = '#ddd1e7'
-	}
+export default function NumberTile({
+	value,
+	status,
+	columns,
+	disabled,
+	onPress
+}: Props): JSX.Element {
+	const theme = useTheme()
+	const compact = columns > 5
 
-	if (disabled) {
-		if (random === index) {
-			indexColor = 'rgba(0, 255, 0, 0.5)'
-		} else {
-			indexColor = 'rgba(255, 0, 0, 0.5)'
+	const colors = {
+		open: {
+			container: theme.colors.surfaceContainerHigh,
+			content: theme.colors.onSurface
+		},
+		wrong: {
+			container: theme.colors.errorContainer,
+			content: theme.colors.onErrorContainer
+		},
+		correct: {
+			container: theme.colors.primary,
+			content: theme.colors.onPrimary
 		}
-	}
+	}[status]
 
 	return (
-		<TouchableOpacity
-			onPress={!(disabled || won) ? onPress : undefined}
-			activeOpacity={!(disabled || won) ? 0.2 : 1}
-			style={[styles.container, { backgroundColor: indexColor }]}>
-			<Typography variant="titleLarge">{index}</Typography>
-		</TouchableOpacity>
+		<View style={[styles.cell, { width: `${100 / columns}%` }]}>
+			<Pressable
+				onPress={onPress}
+				disabled={disabled}
+				accessibilityRole="button"
+				accessibilityLabel={`${value}${statusLabels[status]}`}
+				accessibilityState={{ disabled }}
+				style={({ pressed }) => [
+					styles.tile,
+					compact && styles.compactTile,
+					{
+						backgroundColor: pressed
+							? theme.colors.surfaceContainerHighest
+							: colors.container
+					}
+				]}>
+				<Typography
+					variant={compact ? 'titleSmall' : 'titleLarge'}
+					color={colors.content}
+					style={status === 'wrong' && styles.struck}>
+					{value}
+				</Typography>
+				{status === 'correct' ? (
+					<Icon
+						source="check"
+						size={compact ? 12 : 16}
+						color={colors.content}
+						style={styles.check}
+					/>
+				) : null}
+			</Pressable>
+		</View>
 	)
 }
 
 const styles = StyleSheet.create({
-	container: {
-		height: 60,
-		justifyContent: 'center',
+	cell: {
+		padding: 2
+	},
+	tile: {
+		aspectRatio: 1,
 		alignItems: 'center',
-		width: '20%'
+		justifyContent: 'center',
+		borderRadius: 12
+	},
+	compactTile: {
+		borderRadius: 8
+	},
+	struck: {
+		textDecorationLine: 'line-through'
+	},
+	check: {
+		position: 'absolute',
+		top: 4,
+		right: 4
 	}
 })
