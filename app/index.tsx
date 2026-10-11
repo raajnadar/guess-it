@@ -1,4 +1,4 @@
-import type { JSX } from 'react'
+import React, { JSX } from 'react'
 import { Image, ScrollView, StatusBar, StyleSheet, View } from 'react-native'
 
 import { Button } from '@rootnative/components/button'
@@ -7,12 +7,20 @@ import { Icon } from '@rootnative/components/icon'
 import { Layout } from '@rootnative/components/layout'
 import { Typography } from '@rootnative/components/typography'
 import { useTheme } from '@rootnative/core'
-import { router } from 'expo-router'
+import { router, useFocusEffect } from 'expo-router'
 
 import { levels, min } from '../game/levels'
+import { formatTries, getBestScores } from '../game/score'
 
 export default function Home(): JSX.Element {
 	const theme = useTheme()
+	const [bestScores, setBestScores] = React.useState(getBestScores)
+
+	useFocusEffect(
+		React.useCallback(() => {
+			setBestScores(getBestScores())
+		}, [])
+	)
 
 	return (
 		<Layout edges={['top', 'bottom']}>
@@ -34,28 +42,43 @@ export default function Home(): JSX.Element {
 				</View>
 				<View style={styles.levels}>
 					<Typography variant="titleMedium">Select a level</Typography>
-					{levels.map((level) => (
-						<Card
-							key={level.id}
-							variant="filled"
-							accessibilityLabel={`${level.label}, numbers ${min} to ${level.max}`}
-							onPress={(): void => router.push(`/game/${level.id}`)}>
-							<View style={styles.level}>
-								<View style={styles.levelText}>
-									<Typography variant="titleMedium">{level.label}</Typography>
-									<Typography
-										variant="bodyMedium"
-										color={theme.colors.onSurfaceVariant}>
-										{`Numbers ${min} to ${level.max}`}
-									</Typography>
+					{levels.map((level) => {
+						const best = bestScores[level.id]
+						const bestLabel =
+							best === undefined ? 'No best yet' : `Best: ${formatTries(best)}`
+
+						return (
+							<Card
+								key={level.id}
+								variant="filled"
+								accessibilityLabel={`${level.label}, numbers ${min} to ${level.max}, ${bestLabel}`}
+								onPress={(): void => router.push(`/game/${level.id}`)}>
+								<View style={styles.level}>
+									<View style={styles.levelText}>
+										<Typography variant="titleMedium">{level.label}</Typography>
+										<Typography
+											variant="bodyMedium"
+											color={theme.colors.onSurfaceVariant}>
+											{`Numbers ${min} to ${level.max}`}
+										</Typography>
+										<Typography
+											variant="labelLarge"
+											color={
+												best === undefined
+													? theme.colors.onSurfaceVariant
+													: theme.colors.primary
+											}>
+											{bestLabel}
+										</Typography>
+									</View>
+									<Icon
+										source="chevron-right"
+										color={theme.colors.onSurfaceVariant}
+									/>
 								</View>
-								<Icon
-									source="chevron-right"
-									color={theme.colors.onSurfaceVariant}
-								/>
-							</View>
-						</Card>
-					))}
+							</Card>
+						)
+					})}
 				</View>
 				<View style={styles.actions}>
 					<Button

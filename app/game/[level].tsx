@@ -11,12 +11,10 @@ import { Redirect, router, Stack, useLocalSearchParams } from 'expo-router'
 
 import NumberTile, { TileStatus } from '../../components/NumberTile'
 import { findLevel, Level, min } from '../../game/levels'
+import { formatTries, saveScore, ScoreResult } from '../../game/score'
 
 const generateRandom = (max: number): number =>
 	Math.floor(Math.random() * (max - min + 1) + min)
-
-const formatTries = (tries: number): string =>
-	`${tries} ${tries === 1 ? 'try' : 'tries'}`
 
 export default function GameScreen(): JSX.Element {
 	const params = useLocalSearchParams<{ level: string }>()
@@ -30,10 +28,11 @@ export default function GameScreen(): JSX.Element {
 }
 
 function Game({ level }: { level: Level }): JSX.Element {
-	const { label, max, columns } = level
+	const { id, label, max, columns } = level
 	const theme = useTheme()
 	const [random, setRandom] = React.useState(() => generateRandom(max))
 	const [guessed, setGuessed] = React.useState<Array<number>>([])
+	const [score, setScore] = React.useState<ScoreResult>()
 
 	const numbers = Array.from({ length: max - min + 1 }, (_, i) => min + i)
 	// Use explicit rows, not flexWrap. In floating point, ten cells of '10%'
@@ -92,12 +91,28 @@ function Game({ level }: { level: Level }): JSX.Element {
 		return value === random ? 'correct' : 'wrong'
 	}
 
-	const guessValue = (number: number): void =>
+	const guessValue = (number: number): void => {
 		setGuessed((previous) => [...previous, number])
+
+		if (number === random) {
+			setScore(saveScore(id, tries + 1))
+		}
+	}
 
 	const newGame = (): void => {
 		setRandom(generateRandom(max))
 		setGuessed([])
+		setScore(undefined)
+	}
+
+	const bestMessage = (): string => {
+		if (!score) {
+			return ''
+		}
+
+		return score.newBest
+			? `That is your best on ${label}.`
+			: `Your best on ${label} is ${formatTries(score.best)}.`
 	}
 
 	const { message, detail, color } = hint()
@@ -133,11 +148,13 @@ function Game({ level }: { level: Level }): JSX.Element {
 				))}
 			</ScrollView>
 			<Dialog dismissable={false} visible={won} onDismiss={newGame}>
-				<Dialog.Title>You won!</Dialog.Title>
+				<Dialog.Title>
+					{score?.newBest ? 'New best score!' : 'You won!'}
+				</Dialog.Title>
 				<Dialog.Content>
 					{`The random number is ${random}. You guessed in ${formatTries(
 						tries
-					)}.`}
+					)}. ${bestMessage()}`}
 				</Dialog.Content>
 				<Dialog.Actions>
 					<Button variant="text" onPress={(): void => router.dismissTo('/')}>

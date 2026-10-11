@@ -14,7 +14,8 @@ const rules = [
 	`Select a level. The computer selects a random number in the range of that level: ${ranges}.`,
 	'Tap a number to guess it.',
 	'The hint tells you to go higher or lower. It also shows the range that is left.',
-	'Repeat until you find the random number. Use as few tries as you can.'
+	'Repeat until you find the random number. Use as few tries as you can.',
+	'The app saves your fewest tries for each level as your best score.'
 ]
 
 export default function HowToPlay(): JSX.Element {
